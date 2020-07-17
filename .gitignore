@@ -1,0 +1,16 @@
+# Composer
+/vendor/
+
+# Deploy
+/deploy/
+
+# Eclipse
+/.buildpath
+/.project
+/.settings/
+
+# Node.js
+/node_modules/
+
+# WordPress
+/wordpress/
