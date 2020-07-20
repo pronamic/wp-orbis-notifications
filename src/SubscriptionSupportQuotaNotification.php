@@ -104,29 +104,29 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				user.display_name AS user_display_name,
 				user.user_email AS user_email
 			FROM
-				orbis_subscriptions AS subscription
+				$wpdb->orbis_subscriptions AS subscription
 					INNER JOIN
-				orbis_companies AS company
+				$wpdb->orbis_companies AS company
 						ON subscription.company_id = company.id
 					INNER JOIN
-				orbis_subscription_types AS product
+				$wpdb->orbis_subscription_products AS product
 						ON subscription.type_id = product.id
 					LEFT JOIN
-				orbis_hours_registration AS timesheet
+				$wpdb->orbis_timesheets AS timesheet
 						ON (
 							timesheet.subscription_id = subscription.id
 								AND
 							timesheet.date > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW() ) YEAR )
 						)
 					LEFT JOIN
-				wp_p2p AS user_company_p2p
+				{$wpdb->prefix}p2p AS user_company_p2p
 						ON (
 							user_company_p2p.p2p_type = 'orbis_users_to_companies'
 								AND
 							user_company_p2p.p2p_to = company.post_id
 						)
 					LEFT JOIN
-				wp_users AS user
+				$wpdb->users AS user
 					ON user_company_p2p.p2p_from = user.ID
 			WHERE
 				product.name IN (
@@ -155,8 +155,6 @@ class SubscriptionSupportQuotaNotification extends Notification {
 		);
 
 		$subscriptions = $wpdb->get_results( $query );
-
-		\var_dump( $subscriptions );
 
 		return $subscriptions;
 	}
