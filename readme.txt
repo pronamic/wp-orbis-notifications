@@ -1,5 +1,5 @@
 === Orbis Notifications ===
-Contributors: pronamic, remcotolsma, rubendroogh
+Contributors: pronamic, remcotolsma
 Donate link: http://www.pronamic.eu/donate/
 Tags: orbis, notifications, licence
 Requires at least: 5.2
