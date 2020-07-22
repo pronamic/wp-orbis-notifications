@@ -35,6 +35,13 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	private $max_threshold;
 
 	/**
+	 * Dry run?
+	 *
+	 * @var bool
+	 */
+	private $dry_run;
+
+	/**
 	 * Subscription quota notification constructor.
 	 *
 	 * @param array<string,array|int|string> $options Options.
@@ -54,6 +61,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 
 		$this->min_threshold = \intval( $options['min_threshold'] );
 		$this->max_threshold = \intval( $options['max_threshold'] );
+		$this->dry_run       = \array_key_exists( 'dry_run', $options ) ? $options['dry_run'] : false;
 	}
 
 	/**
