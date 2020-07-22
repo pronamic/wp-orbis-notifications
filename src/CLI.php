@@ -86,11 +86,14 @@ class CLI {
 	 * @return void
 	 */
 	private function execute_subscription_support_quota_notification( $options ) {
-		new SubscriptionSupportQuotaNotification(
+		$notification = new SubscriptionSupportQuotaNotification(
 			array(
 				'min_threshold' => $options['min_threshold'],
 				'max_threshold' => $options['max_threshold'],
+				'dry_run'       => $options['dry_run'],
 			)
 		);
+
+		$notification->run();
 	}
 }
