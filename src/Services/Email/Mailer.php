@@ -27,6 +27,9 @@ class Mailer {
 	 * @throws \Exception Throws exception if email could not be updated in database.
 	 */
 	public function send( $email_id ) {
+		// @todo enable sending email notifications.
+		return;
+
 		global $wpdb;
 
 		$email = new Email( $email_id );
