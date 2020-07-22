@@ -91,18 +91,18 @@ class SubscriptionSupportQuotaNotification extends Notification {
 		// Find subscriptions within support quota threshold.
 		$query = "
 			SELECT
-				company.id AS company_id,
-				company.name AS company_name,
-				subscription.id AS subscription_id,
-				subscription.name AS subscription_name,
-				product.id AS product_id,
-				product.name AS product_name,
-				product.time_per_year,
-				SUM( timesheet.number_seconds ) AS registered_time,
-				100 / product.time_per_year * SUM( timesheet.number_seconds ) AS time_percentage,
-				user.ID AS user_id,
-				user.display_name AS user_display_name,
-				user.user_email AS user_email
+				company.id                                                                 AS company_id,
+				company.name                                                               AS company_name,
+				subscription.id                                                            AS subscription_id,
+				subscription.name                                                          AS subscription_name,
+				product.id                                                                 AS product_id,
+				product.name                                                               AS product_name,
+				product.time_per_year                                                      AS product_time_per_year,
+				SUM( timesheet.number_seconds )                                            AS registered_time,
+				FLOOR( ( 100 / product.time_per_year * SUM( timesheet.number_seconds ) ) ) AS time_percentage,
+				user.ID                                                                    AS user_id,
+				user.display_name                                                          AS user_display_name,
+				user.user_email                                                            AS user_email
 			FROM
 				$wpdb->orbis_subscriptions AS subscription
 					INNER JOIN
@@ -143,10 +143,11 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			GROUP BY
 				subscription.id
 			HAVING
-				( 100 / product.time_per_year * SUM( timesheet.number_seconds ) > %d )
+				MAX( timesheet.date ) > DATE_SUB( NOW( ), INTERVAL 1 MONTH )
 					AND
-				( 100 / product.time_per_year * SUM( timesheet.number_seconds ) < %d )			       
-		;";
+				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) >= %d
+					AND				
+				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d";
 
 		$query = $wpdb->prepare(
 			$query,
