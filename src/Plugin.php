@@ -26,6 +26,18 @@ class Plugin extends Orbis_Plugin {
 	private $notifications;
 
 	/**
+	 * Plugin constructor.
+	 *
+	 * @param array $notifications
+	 */
+	public function __construct( $file ) {
+		parent::__construct( $file );
+
+		orbis_register_table( 'orbis_email_templates' );
+		orbis_register_table( 'orbis_emails' );
+	}
+
+	/**
 	 * Plugins loaded.
 	 */
 	public function loaded() {
