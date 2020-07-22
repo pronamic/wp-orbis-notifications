@@ -73,8 +73,12 @@ class CLI {
 	private function execute_all_notifications( $args ) {
 		$notifications = $this->plugin->get_notifications();
 
+		$dry_run = \array_key_exists( 'dry_run', $args ) ? $args['dry_run'] : false;
+
 		foreach ( $notifications as $notification ) {
-			$notification->run( $args );
+			$notification->dry_run = $dry_run;
+
+			$notification->run();
 		}
 	}
 

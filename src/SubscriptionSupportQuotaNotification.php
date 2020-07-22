@@ -39,7 +39,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	 *
 	 * @var bool
 	 */
-	private $dry_run;
+	public $dry_run;
 
 	/**
 	 * Subscription quota notification constructor.
@@ -67,10 +67,9 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	/**
 	 * Run notification.
 	 *
-	 * @param array<string,array|bool|int|string> $args Arguments.
 	 * @return void
 	 */
-	public function run( $args = array() ) {
+	public function run() {
 		$events = $this->get_events();
 
 		foreach ( $events as $event ) {
