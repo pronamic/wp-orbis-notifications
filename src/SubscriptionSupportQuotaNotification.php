@@ -74,17 +74,73 @@ class SubscriptionSupportQuotaNotification extends Notification {
 		$events = $this->get_events();
 
 		foreach ( $events as $event ) {
-			\printf(
-				__( 'Sending %1$s%% notification for subscription %2$s to %3$s.', 'orbis-notifications' ) . \PHP_EOL,
-				$this->min_threshold,
-				$event['subscription_id']
+			/*
+			 * Compose email.
+			 */
+			$email = new Services\Email\Email();
+
+			$email->set_subscription_id( $event->subscription_id );
+			$email->set_user_id( $event->user_id );
+
+			// Template.
+			$template_code = sprintf( 'wp-support-update-%s-percent', $this->min_threshold );
+
+			$template = $email->load_template( $template_code );
+
+			$replacements = array(
+				'{company_id}'              => $event->company_id,
+				'{company_name}'            => $event->company_name,
+				'{subscription_id}'         => $event->subscription_id,
+				'{subscription_name}'       => $event->subscription_name,
+				'{product_id}'              => $event->product_id,
+				'{product_name}'            => $event->product_name,
+				'{product_time_per_year}'   => ( $event->product_time_per_year > 0 ? ( $event->product_time_per_year / HOUR_IN_SECONDS ) : 0 ),
+				'{product_registered_time}' => ( $event->product_registered_time > 0 ? ( $event->product_registered_time / HOUR_IN_SECONDS ) : 0 ),
+				'{time_percentage}'         => $event->time_percentage,
+				'{user_id}'                 => $event->user_id,
+				'{user_display_name}'       => $event->user_display_name,
+				'{user_email}'              => $event->user_email,
 			);
 
-			if ( isset( $args['dry_run'] ) && true === $args['dry_run'] ) {
+			// Data.
+			$subject = \strtr( $email->get_subject(), $replacements );
+			$message = \strtr( $email->get_message(), $replacements );
+
+			$email->set_to( $event->user_email );
+			$email->set_from( \get_option( 'admin_email' ) );
+			$email->set_subject( $subject );
+			$email->set_message( $message );
+
+			// Print info message.
+			$format = __( 'Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → ', 'orbis-notifications' );
+
+			// Check if template for notification was found.
+			if ( null === $template ) {
+				$format .= __( 'no template for %1$s%% notification to %2$s', 'orbis-notifications' );
+			} else {
+				$format .= __( '%1$s%% notification to %2$s', 'orbis-notifications' );
+			}
+
+			\printf(
+				$format . \PHP_EOL,
+				$this->min_threshold,
+				$event->user_email,
+				$event->subscription_id,
+				$event->company_name,
+				$event->product_name,
+				$event->time_percentage
+			);
+
+			// Skip saving and sending emails if dry run.
+			if ( $this->dry_run ) {
 				continue;
 			}
 
-			// @todo send email notifications.
+			// Save email in database.
+			$email->save();
+
+			// @todo enable sending email notifications.
+			//$email->send();
 		}
 	}
 
