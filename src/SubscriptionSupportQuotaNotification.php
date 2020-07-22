@@ -86,6 +86,11 @@ class SubscriptionSupportQuotaNotification extends Notification {
 
 			$template = $email->load_template( $template_code );
 
+			// Check if email has already been sent.
+			if ( $event->email_template_id === $template->id ) {
+				continue;
+			}
+
 			$replacements = array(
 				'{company_id}'              => $event->company_id,
 				'{company_name}'            => $event->company_name,
@@ -165,7 +170,9 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				FLOOR( ( 100 / product.time_per_year * SUM( timesheet.number_seconds ) ) ) AS time_percentage,
 				user.ID                                                                    AS user_id,
 				user.display_name                                                          AS user_display_name,
-				user.user_email                                                            AS user_email
+				user.user_email                                                            AS user_email,
+				email.created_at                                                           AS email_created_at,
+				email.template_id                                                          AS email_template_id
 			FROM
 				$wpdb->orbis_subscriptions AS subscription
 					INNER JOIN
@@ -190,7 +197,31 @@ class SubscriptionSupportQuotaNotification extends Notification {
 						)
 					LEFT JOIN
 				$wpdb->users AS user
-					ON user_company_p2p.p2p_from = user.ID
+						ON user_company_p2p.p2p_from = user.ID
+					LEFT JOIN
+				$wpdb->orbis_emails AS email
+					ON (
+					    email.subscription_id = subscription.id
+					    	AND
+					    email.user_id = user.ID
+					    	AND
+					    email.created_at =
+					    	(
+						        SELECT
+						            created_at
+						        FROM
+						            $wpdb->orbis_emails
+						        WHERE
+						            subscription_id = subscription.id
+						                AND
+						            user_id = user.ID
+						                AND
+						            created_at > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW( ) ) YEAR )
+						        ORDER BY
+						        	created_at DESC
+								LIMIT 1
+							)
+					)
 			WHERE
 				product.name IN (
 					'WordPress onderhoud XS',
@@ -206,7 +237,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			GROUP BY
 				subscription.id
 			HAVING
-				MAX( timesheet.date ) > DATE_SUB( NOW( ), INTERVAL 1 MONTH )
+				MAX( timesheet.date ) > DATE_SUB( NOW(), INTERVAL 1 MONTH )
 					AND
 				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) >= %d
 					AND				
