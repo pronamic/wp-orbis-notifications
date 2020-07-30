@@ -27,6 +27,7 @@ if ( empty( $item ) ) {
 	return \get_404_template();
 }
 
+$track_url   = 'https://track.orbis.pronamic.nl/notification/' . $item->link_key . '/Logo-Pronamic-2010-RGB.png';
 $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id . '/preview' ) );
 
 \get_header();
@@ -85,6 +86,30 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 				</th>
 				<td>
 					<?php echo esc_html( $item->subject ); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php esc_html_e( 'Link Key', 'lookup' ); ?>
+				</th>
+				<td>
+					<?php echo esc_html( $item->link_key ); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php esc_html_e( 'Email Tracking Image Link', 'lookup' ); ?>
+				</th>
+				<td>
+					<?php 
+
+					\printf(
+						'<a href="%s">%s</a>',
+						\esc_url( $track_url ),
+						\esc_html( $track_url ),
+					);
+
+					?>
 				</td>
 			</tr>
 			<tr>
