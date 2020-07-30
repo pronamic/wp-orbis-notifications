@@ -28,13 +28,14 @@ class Plugin extends Orbis_Plugin {
 	/**
 	 * Plugin constructor.
 	 *
-	 * @param array $notifications
+	 * @param string $file Plugin main file.
 	 */
 	public function __construct( $file ) {
 		parent::__construct( $file );
 
 		orbis_register_table( 'orbis_email_templates' );
 		orbis_register_table( 'orbis_email_messages' );
+		orbis_register_table( 'orbis_email_tracking' );
 
 		// Email messages controller.
 		( new EmailMessagesController() )->setup();
