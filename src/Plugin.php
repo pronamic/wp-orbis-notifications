@@ -34,7 +34,7 @@ class Plugin extends Orbis_Plugin {
 		parent::__construct( $file );
 
 		orbis_register_table( 'orbis_email_templates' );
-		orbis_register_table( 'orbis_emails' );
+		orbis_register_table( 'orbis_email_messages' );
 
 		// Email messages controller.
 		( new EmailMessagesController() )->setup();

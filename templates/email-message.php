@@ -11,7 +11,7 @@ $query = $wpdb->prepare(
 	SELECT
 		email_message.*
 	FROM
-		$wpdb->orbis_emails AS email_message
+		$wpdb->orbis_email_messages AS email_message
 	WHERE
 		email_message.id = %d
 	LIMIT

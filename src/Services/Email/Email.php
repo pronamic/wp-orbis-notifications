@@ -138,7 +138,7 @@ class Email {
 				user_id,
 			    subscription_id
 			FROM
-			    $wpdb->orbis_emails
+			    $wpdb->orbis_email_messages
 			WHERE
 				id = %d
 		;";

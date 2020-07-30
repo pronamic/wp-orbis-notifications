@@ -44,7 +44,7 @@ class Mailer {
 
 		// Update.
 		$result = $wpdb->update(
-			$wpdb->orbis_emails,
+			$wpdb->orbis_email_messages,
 			array( 'is_sent' => $is_sent ),
 			array( 'id' => $email_id ),
 			array( 'is_sent' => '%d' ),

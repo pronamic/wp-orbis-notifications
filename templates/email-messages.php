@@ -8,7 +8,7 @@ $query = "
 	SELECT
 		email_message.*
 	FROM
-		$wpdb->orbis_emails AS email_message
+		$wpdb->orbis_email_messages AS email_message
 	ORDER BY
 		email_message.created_at DESC
 	LIMIT
