@@ -27,15 +27,17 @@ if ( empty( $item ) ) {
 	return \get_404_template();
 }
 
-?>
-<style type="text/css">
-	th {
-		text-align: left;
-	}
-</style>
+if ( 'no' !== \filter_input( \INPUT_GET, 'headers' ) ) {
+	?>
 
-<table>
-	<tbody>
+	<style type="text/css">
+		th {
+			text-align: left;
+		}
+	</style>
+
+	<table>
+		<tbody>
 		<tr>
 			<th scope="row"><?php \esc_html_e( 'From', 'orbis-notifications' ); ?></th>
 			<td><?php echo \esc_html( $item->from_email ); ?></td>
@@ -48,9 +50,10 @@ if ( empty( $item ) ) {
 			<th scope="row"><?php \esc_html_e( 'Subject', 'orbis-notifications' ); ?></th>
 			<td><?php echo \esc_html( $item->subject ); ?></td>
 		</tr>
-	</tbody>
-</table>
+		</tbody>
+	</table>
 
-<?php
+	<?php
+}
 
 echo $item->message;

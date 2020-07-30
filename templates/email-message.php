@@ -154,7 +154,7 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 		<?php \esc_html_e( 'Email Preview', 'orbis-notifications' ); ?>
 	</div>
 
-	<iframe style="min-height: 500px;" src="<?php echo \esc_url( $preview_url ); ?>" frameborder="0" allowtransparency="true" seamless="seamless" width="100%" height="100%"></iframe>
+	<iframe style="min-height: 500px;" src="<?php echo \esc_url( \add_query_arg( 'headers', 'no', $preview_url ) ); ?>" frameborder="0" allowtransparency="true" seamless="seamless" width="100%" height="100%"></iframe>
 </div>
 
 <div class="card mb-4">
