@@ -32,7 +32,7 @@ $query = $wpdb->prepare(
 	SELECT
 		*
 	FROM
-		orbis_email_tracking
+		$wpdb->orbis_email_tracking
 	WHERE
 		email_message_id = %d
 	LIMIT

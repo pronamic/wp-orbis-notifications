@@ -35,6 +35,7 @@ class Plugin extends Orbis_Plugin {
 
 		orbis_register_table( 'orbis_email_templates' );
 		orbis_register_table( 'orbis_email_messages' );
+		orbis_register_table( 'orbis_email_tracking' );
 
 		// Email messages controller.
 		( new EmailMessagesController() )->setup();
