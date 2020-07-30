@@ -27,6 +27,23 @@ if ( empty( $item ) ) {
 	return \get_404_template();
 }
 
+$query = $wpdb->prepare(
+	"
+	SELECT
+		*
+	FROM
+		orbis_email_tracking
+	WHERE
+		email_message_id = %d
+	LIMIT
+		0, 100
+	;
+	",
+	$email_message_id
+);
+
+$tracking_data = $wpdb->get_results( $query );
+
 $track_url   = 'https://track.orbis.pronamic.nl/notification/' . $item->link_key . '/Logo-Pronamic-2010-RGB.png';
 $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id . '/preview' ) );
 
@@ -138,6 +155,46 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 	</div>
 
 	<iframe style="min-height: 500px;" src="<?php echo \esc_url( $preview_url ); ?>" frameborder="0" allowtransparency="true" seamless="seamless" width="100%" height="100%"></iframe>
+</div>
+
+<div class="card mb-4">
+	<div class="card-header">
+		<?php \esc_html_e( 'Email Tracking', 'orbis-notifications' ); ?>
+	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col"><?php \esc_html_e( 'ID', 'orbis-notifications' ); ?></th>
+				<th scope="col"><?php \esc_html_e( 'IP Address', 'orbis-notifications' ); ?></th>
+				<th scope="col"><?php \esc_html_e( 'User Agent', 'orbis-notifications' ); ?></th>
+				<th scope="col"><?php \esc_html_e( 'Request Time', 'orbis-notifications' ); ?></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			
+			<?php foreach ( $tracking_data as $item ) : ?>
+
+				<tr>
+					<td>
+						<?php echo \esc_html( $item->id ); ?>
+					</td>
+					<td>
+						<?php echo \esc_html( $item->ip_address ); ?>
+					</td>
+					<td>
+						<?php echo \esc_html( $item->user_agent ); ?>
+					</td>
+					<td>
+						<?php echo \esc_html( $item->request_time ); ?>
+					</td>
+				</tr>
+
+			<?php endforeach; ?>
+
+		</tbody>
+	</table>
 </div>
 <?php
 
