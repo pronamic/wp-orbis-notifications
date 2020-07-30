@@ -28,7 +28,7 @@ class Plugin extends Orbis_Plugin {
 	/**
 	 * Plugin constructor.
 	 *
-	 * @param array $notifications
+	 * @param string $file Plugin main file.
 	 */
 	public function __construct( $file ) {
 		parent::__construct( $file );
