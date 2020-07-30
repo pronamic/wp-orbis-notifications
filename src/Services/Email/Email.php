@@ -472,7 +472,7 @@ class Email {
 
 		// Insert email.
 		$result  = $wpdb->insert(
-			$wpdb->orbis_emails,
+			$wpdb->orbis_email_messages,
 			$data['data'],
 			$data['format']
 		);
