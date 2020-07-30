@@ -506,6 +506,7 @@ class Email {
 			'to_email'   => $this->get_to(),
 			'subject'    => $this->get_subject(),
 			'message'    => $this->get_message(),
+			'link_key'   => \wp_generate_password( 32, false, false ),
 		);
 
 		// Format.
@@ -515,6 +516,7 @@ class Email {
 			'to_email'   => '%s',
 			'subject'    => '%s',
 			'message'    => '%s',
+			'link_key'   => '%s',
 		);
 
 		// From.
