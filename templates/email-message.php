@@ -47,6 +47,9 @@ $tracking_data = $wpdb->get_results( $query );
 $track_url   = 'https://track.orbis.pronamic.nl/notification/' . $item->link_key . '/Logo-Pronamic-2010-RGB.png';
 $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id . '/preview' ) );
 
+$utc = new \DateTimeZone( 'UTC' );
+$tz  = \wp_timezone();
+
 \get_header();
 
 ?>
@@ -70,7 +73,7 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 					<?php esc_html_e( 'Created At', 'lookup' ); ?>
 				</th>
 				<td>
-					<?php echo esc_html( $item->created_at ); ?>
+					<?php echo \esc_html( ( new \DateTimeImmutable( $item->created_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?>
 				</td>
 			</tr>
 			<tr>
@@ -78,7 +81,7 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 					<?php esc_html_e( 'Updated At', 'lookup' ); ?>
 				</th>
 				<td>
-					<?php echo esc_html( $item->updated_at ); ?>
+					<?php echo \esc_html( ( new \DateTimeImmutable( $item->updated_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?>
 				</td>
 			</tr>
 			<tr>
@@ -110,7 +113,7 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 					<?php esc_html_e( 'Link Key', 'lookup' ); ?>
 				</th>
 				<td>
-					<?php echo esc_html( $item->link_key ); ?>
+					<code><?php echo esc_html( $item->link_key ); ?></code>
 				</td>
 			</tr>
 			<tr>
@@ -181,7 +184,7 @@ $preview_url = \home_url( \user_trailingslashit( 'email-messages/' . $item->id .
 						<?php echo \esc_html( $item->id ); ?>
 					</td>
 					<td>
-						<?php echo \esc_html( $item->ip_address ); ?>
+						<code><?php echo \esc_html( $item->ip_address ); ?></code>
 					</td>
 					<td>
 						<?php echo \esc_html( $item->user_agent ); ?>

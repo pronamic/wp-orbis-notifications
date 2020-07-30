@@ -22,6 +22,9 @@ if ( empty( $data ) ) {
 	return \get_404_template();
 }
 
+$utc = new \DateTimeZone( 'UTC' );
+$tz  = \wp_timezone();
+
 \get_header();
 
 ?>
@@ -43,7 +46,7 @@ if ( empty( $data ) ) {
 
 			<tr>
 				<td><?php echo \esc_html( $item->id ); ?></td>
-				<td><?php echo \esc_html( $item->created_at ); ?></td>
+				<td><?php echo \esc_html( ( new \DateTimeImmutable( $item->created_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?></td>
 				<td><?php echo \esc_html( $item->from_email ); ?></td>
 				<td><?php echo \esc_html( $item->to_email ); ?></td>
 				<td><?php echo \esc_html( $item->subject ); ?></td>
