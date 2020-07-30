@@ -472,7 +472,7 @@ class Email {
 
 		// Insert email.
 		$result  = $wpdb->insert(
-			$wpdb->orbis_emails,
+			$wpdb->orbis_email_messages,
 			$data['data'],
 			$data['format']
 		);
@@ -507,6 +507,7 @@ class Email {
 			'subject'    => $this->get_subject(),
 			'message'    => $this->get_message(),
 			'link_key'   => \wp_generate_password( 32, false, false ),
+			'test_mode'  => true,
 		);
 
 		// Format.
@@ -517,6 +518,7 @@ class Email {
 			'subject'    => '%s',
 			'message'    => '%s',
 			'link_key'   => '%s',
+			'test_mode'  => '%d',
 		);
 
 		// From.
