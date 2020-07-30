@@ -501,8 +501,8 @@ class Email {
 	public function get_data() {
 		// Data.
 		$data = array(
-			'created_at' => current_time( 'mysql' ),
-			'updated_at' => current_time( 'mysql' ),
+			'created_at' => current_time( 'mysql', true ),
+			'updated_at' => current_time( 'mysql', true ),
 			'to_email'   => $this->get_to(),
 			'subject'    => $this->get_subject(),
 			'message'    => $this->get_message(),
