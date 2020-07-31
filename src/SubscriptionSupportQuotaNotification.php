@@ -171,8 +171,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				user.ID                                                                    AS user_id,
 				user.display_name                                                          AS user_display_name,
 				user.user_email                                                            AS user_email,
-				email.created_at                                                           AS email_created_at,
-				email.template_id                                                          AS email_template_id
+				email_message.created_at                                                           AS email_created_at,
+				email_message.template_id                                                          AS email_template_id
 			FROM
 				$wpdb->orbis_subscriptions AS subscription
 					INNER JOIN
@@ -199,13 +199,13 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$wpdb->users AS user
 						ON user_company_p2p.p2p_from = user.ID
 					LEFT JOIN
-				$wpdb->orbis_email_messages AS email
+				$wpdb->orbis_email_messages AS email_message
 					ON (
-					    email.subscription_id = subscription.id
+					    email_message.subscription_id = subscription.id
 					    	AND
-					    email.user_id = user.ID
+					    email_message.user_id = user.ID
 					    	AND
-					    email.created_at =
+					    email_message.created_at =
 					    	(
 						        SELECT
 						            created_at
