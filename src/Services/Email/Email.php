@@ -102,9 +102,30 @@ class Email {
 	 */
 	private $subscription_id;
 
+	/**
+	 * Link key.
+	 *
+	 * @var string|null
+	 */
+	private $link_key;
+
+	/**
+	 * Test mode.
+	 *
+	 * @var bool
+	 */
+	private $test_mode;
+
+	/**
+	 * Preheader text.
+	 * @var string|null
+	 */
+	private $preheader_text;
+
 	public function __construct( $id = null ) {
 		$this->number_attempts = 0;
 		$this->sent            = false;
+		$this->test_mode       = true;
 
 		// Load email.
 		if ( null !== $id ) {
@@ -136,7 +157,9 @@ class Email {
 			    number_attempts,
 			    template_id,
 				user_id,
-			    subscription_id
+			    subscription_id,
+			    link_key,
+			    test_mode
 			FROM
 			    $wpdb->orbis_email_messages
 			WHERE
@@ -162,6 +185,8 @@ class Email {
 			$this->set_template_id( $email->template_id );
 			$this->set_user_id( $email->user_id );
 			$this->set_subscription_id( $email->subscription_id );
+			$this->set_link_key( $email->link_key );
+			$this->set_test_mode( (bool) $email->test_mode );
 
 			return $this;
 		}
@@ -203,6 +228,23 @@ class Email {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Wrap message in template.
+	 *
+	 * @return void
+	 */
+	public function wrap_message_in_template() {
+		$email = $this;
+
+		ob_start();
+
+		include __DIR__ . '/../../../templates/emails/email.php';
+
+		$contents = ob_get_clean();
+
+		$this->set_message( $contents );
 	}
 
 	/**
@@ -426,6 +468,66 @@ class Email {
 	}
 
 	/**
+	 * Get link key.
+	 *
+	 * @return string|null
+	 */
+	public function get_link_key() {
+		return $this->link_key;
+	}
+
+	/**
+	 * Set link key.
+	 *
+	 * @param string|null $link_key Link key.
+	 *
+	 * @return void
+	 */
+	public function set_link_key( $link_key ) {
+		$this->link_key = $link_key;
+	}
+
+	/**
+	 * Get test mode.
+	 *
+	 * @return bool
+	 */
+	public function is_test_mode() {
+		return $this->test_mode;
+	}
+
+	/**
+	 * Set test mode.
+	 *
+	 * @param bool $test_mode Test mode.
+	 *
+	 * @return void
+	 */
+	public function set_test_mode( $test_mode ) {
+		$this->test_mode = $test_mode;
+	}
+
+	/**
+	 * Get preheader text.
+	 *
+	 * @return string|null
+	 */
+	public function get_preheader_text() {
+		return $this->preheader_text;
+	}
+
+	/**
+	 * Set preheader text.
+	 *
+	 * @param string|null $preheader_text Preheader text.
+	 *
+	 * @return void
+	 */
+	public function set_preheader_text( $preheader_text ) {
+		$this->preheader_text = $preheader_text;
+	}
+
+	/**
 	 * Get headers.
 	 *
 	 * @return array
@@ -506,8 +608,8 @@ class Email {
 			'to_email'   => $this->get_to(),
 			'subject'    => $this->get_subject(),
 			'message'    => $this->get_message(),
-			'link_key'   => \wp_generate_password( 32, false, false ),
-			'test_mode'  => true,
+			'link_key'   => $this->get_link_key(),
+			'test_mode'  => $this->is_test_mode(),
 		);
 
 		// Format.

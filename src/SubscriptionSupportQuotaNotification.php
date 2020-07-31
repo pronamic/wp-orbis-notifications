@@ -91,6 +91,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				continue;
 			}
 
+			$link_key = \wp_generate_password( 32, false, false );
+
 			$replacements = array(
 				'{company_id}'              => $event->company_id,
 				'{company_name}'            => $event->company_name,
@@ -104,16 +106,22 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				'{user_id}'                 => $event->user_id,
 				'{user_display_name}'       => $event->user_display_name,
 				'{user_email}'              => $event->user_email,
+				'{link_key}'                => $link_key,
 			);
 
 			// Data.
-			$subject = \strtr( $email->get_subject(), $replacements );
-			$message = \strtr( $email->get_message(), $replacements );
+			$subject        = \strtr( $email->get_subject(), $replacements );
+			$message        = \strtr( $email->get_message(), $replacements );
+			$preheader_text = \strtr( $email->get_preheader_text(), $replacements );
 
 			$email->set_to( $event->user_email );
 			$email->set_from( \get_option( 'admin_email' ) );
 			$email->set_subject( $subject );
 			$email->set_message( $message );
+			$email->set_preheader_text( $preheader_text );
+			$email->set_link_key( $link_key );
+
+			$email->wrap_message_in_template();
 
 			// Print info message.
 			$format = __( 'Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → ', 'orbis-notifications' );
