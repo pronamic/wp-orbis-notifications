@@ -535,6 +535,7 @@ class Email {
 	public function build_headers() {
 		$headers = array(
 			'Content-Type: text/html; charset=' . get_option( 'blog_charset' ),
+			'Mime-Version: 1.0',
 		);
 
 		// From.

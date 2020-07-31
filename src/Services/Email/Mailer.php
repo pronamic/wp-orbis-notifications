@@ -70,7 +70,9 @@ class Mailer {
 			$to_email = ORBIS_NOTIFICATIONS_TEST_EMAIL;
 		}
 
-		$is_sent  = wp_mail( $to_email, $email_message->subject, $email_message->message, $email_message->headers );
+		$headers = str_replace( "\n", "\r\n", $email_message->headers );
+
+		$is_sent = wp_mail( $to_email, $email_message->subject, $email_message->message, $headers );
 
 		// Update.
 		$data = array(
