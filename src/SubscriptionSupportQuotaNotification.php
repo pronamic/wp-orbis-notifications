@@ -142,9 +142,6 @@ class SubscriptionSupportQuotaNotification extends Notification {
 
 			// Save email in database.
 			$email->save();
-
-			// @todo enable sending email notifications.
-			//$email->send();
 		}
 	}
 

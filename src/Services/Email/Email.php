@@ -578,9 +578,40 @@ class Email {
 	 * @throws \Exception Throws exception if email could not be updated in database.
 	 */
 	public function send() {
-		$mailer = new Mailer();
+		global $wpdb;
+
+		if ( null === $this->id ) {
+			$this->save();
+		}
+
+		// Get single email.
+		$query = $wpdb->prepare(
+			"
+			SELECT
+				email_message.*
+			FROM
+				$wpdb->orbis_email_messages AS email_message
+			WHERE
+				email_message.id = %d
+			;
+		",
+			$this->id
+		);
+
+		$email_message = $wpdb->get_row( $query );
+
+		if ( null === $email_message ) {
+			throw new \Exception(
+				sprintf(
+					__( 'Failed sending email ID #%d. Message could not be found.', 'orbis-notifications' ),
+					$this->id
+				)
+			);
+		}
 
 		// Send mail.
-		$mailer->send( $this->id );
+		$mailer = new Mailer();
+
+		$mailer->send( $email_message );
 	}
 }

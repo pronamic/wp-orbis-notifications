@@ -10,6 +10,8 @@
 
 namespace Pronamic\WordPress\Orbis\Notifications;
 
+use Pronamic\WordPress\Orbis\Notifications\Services\Email\Mailer;
+
 /**
  * CLI
  *
@@ -62,6 +64,19 @@ class CLI {
 				'shortdesc' => 'Execute a subscription quota exceeded notification for the given quota threshold percentage.',
 			)
 		);
+
+		// Process mailer queue.
+		\WP_CLI::add_command(
+			'orbis mailer process-queue',
+			function( $args, $assoc_args ) {
+				$mailer = new Mailer();
+
+				$mailer->process_queue();
+			},
+			array(
+				'shortdesc' => 'Process mailer queue.',
+			)
+		);
 	}
 
 	/**
@@ -85,8 +100,7 @@ class CLI {
 	/**
 	 * Execute subscription support quota notification.
 	 *
-	 * @param array $args       Arguments.
-	 * @param array $assoc_args Arguments.
+	 * @param array $options Options.
 	 * @return void
 	 */
 	private function execute_subscription_support_quota_notification( $options ) {
