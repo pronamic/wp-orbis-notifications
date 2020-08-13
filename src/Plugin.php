@@ -33,8 +33,12 @@ class Plugin extends Orbis_Plugin {
 	public function __construct( $file ) {
 		parent::__construct( $file );
 
-		orbis_register_table( 'orbis_email_templates' );
+		$this->set_name( 'orbis_notifications' );
+		$this->set_db_version( '0.0.1' );
+
+		// Tables.
 		orbis_register_table( 'orbis_email_messages' );
+		orbis_register_table( 'orbis_email_templates' );
 		orbis_register_table( 'orbis_email_tracking' );
 
 		// Includes.
@@ -57,6 +61,69 @@ class Plugin extends Orbis_Plugin {
 
 		// Register notifications.
 		$this->register_notifications();
+	}
+
+	/**
+	 * Install.
+	 */
+	public function install() {
+		// Tables
+		orbis_install_table( 'orbis_email_messages', '
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`created_at` datetime NOT NULL,
+			`updated_at` datetime NOT NULL,
+			`from_email` varchar(200) NOT NULL,
+			`to_email` varchar(200) NOT NULL,
+			`reply_to` varchar(200) NOT NULL,
+			`subject` varchar(200) NOT NULL,
+			`message` text NOT NULL,
+			`headers` text NOT NULL,
+			`is_sent` tinyint(1) NOT NULL,
+			`number_attempts` tinyint(1) NOT NULL,
+			`template_id` bigint(20) unsigned DEFAULT NULL,
+			`user_id` bigint(20) unsigned DEFAULT NULL,
+			`subscription_id` bigint(20) unsigned DEFAULT NULL,
+			`company_id` bigint(20) unsigned DEFAULT NULL,
+			`link_key` varchar(32) DEFAULT NULL,
+			`test_mode` tinyint(1) unsigned DEFAULT NULL,
+			PRIMARY KEY (`id`),
+			KEY `template_id` (`template_id`),
+			KEY `user_id` (`user_id`),
+			KEY `subscription_id` (`subscription_id`),
+			CONSTRAINT `wp_orbis_email_messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `wp_users` (`ID`),
+			CONSTRAINT `wp_orbis_email_messages_ibfk_4` FOREIGN KEY (`subscription_id`) REFERENCES `wp_orbis_subscriptions` (`id`),
+			CONSTRAINT `wp_orbis_email_messages_ibfk_5` FOREIGN KEY (`template_id`) REFERENCES `wp_orbis_email_templates` (`id`)
+		' );
+
+		orbis_install_table( 'orbis_email_templates', '
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`created_at` datetime NOT NULL,
+			`updated_at` datetime NOT NULL,
+			`code` varchar(32) NOT NULL,
+			`subject` varchar(200) NOT NULL,
+			`message` text NOT NULL,
+			`preheader_text` varchar(200) NOT NULL,
+			PRIMARY KEY (`id`),
+			UNIQUE KEY `code` (`code`)
+		' );
+
+		orbis_install_table( 'orbis_email_tracking', '
+			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			`email_message_id` bigint(20) unsigned NOT NULL,
+			`ip_address` varchar(100) NOT NULL,
+			`user_agent` varchar(255) NOT NULL,
+			`request_time` datetime(6) NOT NULL,
+			PRIMARY KEY (`id`)
+		' );
+
+		// Maybe convert
+		global $wpdb;
+
+		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_messages );
+		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_templates );
+		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_tracking );
+
+		parent::install();
 	}
 
 	/**
