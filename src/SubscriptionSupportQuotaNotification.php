@@ -124,12 +124,15 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$email->wrap_message_in_template();
 
 			// Print info message.
+			/* translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage */
 			$format = __( 'Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → ', 'orbis-notifications' );
 
 			// Check if template for notification was found.
 			if ( null === $template ) {
+				/* translators: 1: min threshold, 2: user email */
 				$format .= __( 'no template for %1$s%% notification to %2$s', 'orbis-notifications' );
 			} else {
+				/* translators: 1: min threshold, 2: user email */
 				$format .= __( '%1$s%% notification to %2$s', 'orbis-notifications' );
 			}
 

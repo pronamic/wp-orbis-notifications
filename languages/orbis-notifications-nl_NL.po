@@ -1,0 +1,134 @@
+# Copyright (C) 2020 Pronamic
+# This file is distributed under the same license as the Orbis Notifications plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Orbis Notifications 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/orbis-"
+"notifications\n"
+"POT-Creation-Date: 2020-08-13T14:25:52+00:00\n"
+"PO-Revision-Date: 2020-08-13 16:26+0200\n"
+"Last-Translator: Reüel van der Steege <reuel@pronamic.nl>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4\n"
+"X-Domain: orbis-notifications\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Plugin Name of the plugin
+msgid "Orbis Notifications"
+msgstr "Orbis Meldingen"
+
+#. Plugin URI of the plugin
+#| msgid "http://www.pronamic.eu/plugins/orbis-notifications/"
+msgid "https://www.pronamic.eu/plugins/orbis-notifications/"
+msgstr "https://www.pronamic.eu/plugins/orbis-notifications/"
+
+#. Description of the plugin
+msgid ""
+"The Orbis Notifications plugin extends your Orbis environment with "
+"notifications."
+msgstr "De Orbis Meldingen plugin breidt de Orbis-omgeving uit met meldingen."
+
+#. Author of the plugin
+msgid "Pronamic"
+msgstr "Pronamic"
+
+#. Author URI of the plugin
+#| msgid "http://www.pronamic.eu/"
+msgid "https://www.pronamic.eu/"
+msgstr "https://www.pronamic.eu/"
+
+#: includes/template.php:13
+msgid "Email messages"
+msgstr "E-mails"
+
+#. translators: %d: email ID
+#: src/Services/Email/Email.php:712
+msgid "Failed sending email ID #%d. Message could not be found."
+msgstr "Kon e-mail ID #%d niet verzenden. E-mail kon niet worden gevonden."
+
+#. translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage
+#: src/SubscriptionSupportQuotaNotification.php:128
+msgid "Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → "
+msgstr "Abonnement #%3$s (%4$s - %5$s) bereikte %6$s%% van de support quota → "
+
+#. translators: 1: min threshold, 2: user email
+#: src/SubscriptionSupportQuotaNotification.php:133
+msgid "no template for %1$s%% notification to %2$s"
+msgstr "geen sjabloon voor %1$s%% melding naar %2$s"
+
+#. translators: 1: min threshold, 2: user email
+#: src/SubscriptionSupportQuotaNotification.php:136
+msgid "%1$s%% notification to %2$s"
+msgstr "%1$s%% melding naar %2$s"
+
+#: templates/company-email-messages.php:47 templates/email-message.php:65
+#: templates/email-message.php:171 templates/email-messages.php:34
+msgid "ID"
+msgstr "ID"
+
+#: templates/company-email-messages.php:48 templates/email-message.php:73
+#: templates/email-messages.php:35
+msgid "Created"
+msgstr "Aangemaakt"
+
+#: templates/company-email-messages.php:49
+#: templates/email-message-preview.php:42 templates/email-message.php:89
+#: templates/email-messages.php:36
+msgid "From"
+msgstr "Van"
+
+#: templates/company-email-messages.php:50
+#: templates/email-message-preview.php:46 templates/email-message.php:97
+#: templates/email-messages.php:37
+msgid "To"
+msgstr "Aan"
+
+#: templates/company-email-messages.php:51
+#: templates/email-message-preview.php:50 templates/email-message.php:105
+#: templates/email-messages.php:38
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: templates/email-message.php:58
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/email-message.php:81
+msgid "Updated"
+msgstr "Bijgewerkt"
+
+#: templates/email-message.php:113
+msgid "Link Key"
+msgstr "Link-sleutel"
+
+#: templates/email-message.php:121
+msgid "Email Tracking Image Link"
+msgstr "E-mail tracking afbeeldingslink"
+
+#: templates/email-message.php:137
+msgid "Preview Link"
+msgstr "Voorbeeld-link"
+
+#: templates/email-message.php:157
+msgid "Email Preview"
+msgstr "E-mail voorbeeld"
+
+#: templates/email-message.php:165
+msgid "Email Tracking"
+msgstr "E-mail tracking"
+
+#: templates/email-message.php:172
+msgid "IP Address"
+msgstr "IP-adres"
+
+#: templates/email-message.php:173
+msgid "User Agent"
+msgstr "User Agent"
+
+#: templates/email-message.php:174
+msgid "Request Time"
+msgstr "Verzoek tijd"

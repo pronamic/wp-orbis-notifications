@@ -45,7 +45,7 @@ if ( $email_messages ) : ?>
 		<thead>
 			<tr>
 				<th scope="col"><?php \esc_html_e( 'ID', 'orbis-notifications' ); ?></th>
-				<th scope="col"><?php \esc_html_e( 'Created At', 'orbis-notifications' ); ?></th>
+				<th scope="col"><?php \esc_html_e( 'Created', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'From', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'To', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'Subject', 'orbis-notifications' ); ?></th>

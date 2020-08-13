@@ -52,9 +52,10 @@ class Plugin extends Orbis_Plugin {
 	 * Plugins loaded.
 	 */
 	public function loaded() {
-		/**
-		 * CLI.
-		 */
+		// Load translations.
+		$this->load_textdomain( 'orbis-notifications', '/languages/' );
+
+		// CLI.
 		if ( \defined( 'WP_CLI' ) && WP_CLI ) {
 			new CLI( $this );
 		}

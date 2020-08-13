@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: Orbis Notifications
-Plugin URI: http://www.pronamic.eu/plugins/orbis-notifications/
+Plugin URI: https://www.pronamic.eu/plugins/orbis-notifications/
 Description: The Orbis Notifications plugin extends your Orbis environment with notifications.
 
 Version: 1.0.0
 Requires at least: 5.2
 
 Author: Pronamic
-Author URI: http://www.pronamic.eu/
+Author URI: https://www.pronamic.eu/
 
-Text Domain: orbis_notifications
+Text Domain: orbis-notifications
 Domain Path: /languages/
 
 License: Copyright (c) Pronamic

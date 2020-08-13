@@ -708,6 +708,7 @@ class Email {
 		if ( null === $email_message ) {
 			throw new \Exception(
 				sprintf(
+					/* translators: %d: email ID */
 					__( 'Failed sending email ID #%d. Message could not be found.', 'orbis-notifications' ),
 					$this->id
 				)

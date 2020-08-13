@@ -62,7 +62,7 @@ $tz  = \wp_timezone();
 		<table class="table table-borderless table-sm mb-0 w-auto">
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'ID', 'lookup' ); ?>
+					<?php esc_html_e( 'ID', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo esc_html( $item->id ); ?>
@@ -70,7 +70,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Created At', 'lookup' ); ?>
+					<?php esc_html_e( 'Created', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo \esc_html( ( new \DateTimeImmutable( $item->created_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?>
@@ -78,7 +78,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Updated At', 'lookup' ); ?>
+					<?php esc_html_e( 'Updated', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo \esc_html( ( new \DateTimeImmutable( $item->updated_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?>
@@ -86,7 +86,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'From', 'lookup' ); ?>
+					<?php esc_html_e( 'From', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo esc_html( $item->from_email ); ?>
@@ -94,7 +94,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'To', 'lookup' ); ?>
+					<?php esc_html_e( 'To', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo esc_html( $item->to_email ); ?>
@@ -102,7 +102,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Subject', 'lookup' ); ?>
+					<?php esc_html_e( 'Subject', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php echo esc_html( $item->subject ); ?>
@@ -110,7 +110,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Link Key', 'lookup' ); ?>
+					<?php esc_html_e( 'Link Key', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<code><?php echo esc_html( $item->link_key ); ?></code>
@@ -118,7 +118,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Email Tracking Image Link', 'lookup' ); ?>
+					<?php esc_html_e( 'Email Tracking Image Link', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php 
@@ -134,7 +134,7 @@ $tz  = \wp_timezone();
 			</tr>
 			<tr>
 				<th scope="row">
-					<?php esc_html_e( 'Preview Link', 'lookup' ); ?>
+					<?php esc_html_e( 'Preview Link', 'orbis-notifications' ); ?>
 				</th>
 				<td>
 					<?php 
