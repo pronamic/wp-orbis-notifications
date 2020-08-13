@@ -79,6 +79,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$email = new Services\Email\Email();
 
 			$email->set_subscription_id( $event->subscription_id );
+			$email->set_company_id( $event->company_id );
 			$email->set_user_id( $event->user_id );
 
 			// Template.

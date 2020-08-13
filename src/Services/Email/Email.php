@@ -103,6 +103,13 @@ class Email {
 	private $subscription_id;
 
 	/**
+	 * Company ID.
+	 *
+	 * @var int|null
+	 */
+	private $company_id;
+
+	/**
 	 * Link key.
 	 *
 	 * @var string|null
@@ -158,6 +165,7 @@ class Email {
 			    template_id,
 				user_id,
 			    subscription_id,
+			    company_id,
 			    link_key,
 			    test_mode
 			FROM
@@ -185,6 +193,7 @@ class Email {
 			$this->set_template_id( $email->template_id );
 			$this->set_user_id( $email->user_id );
 			$this->set_subscription_id( $email->subscription_id );
+			$this->set_company_id( $email->company_id );
 			$this->set_link_key( $email->link_key );
 			$this->set_test_mode( (bool) $email->test_mode );
 
@@ -468,6 +477,26 @@ class Email {
 	}
 
 	/**
+	 * Get company id.
+	 *
+	 * @return int|null
+	 */
+	public function get_company_id() {
+		return $this->company_id;
+	}
+
+	/**
+	 * Set company id.
+	 *
+	 * @param int|null $company_id Company id.
+	 *
+	 * @return void
+	 */
+	public function set_company_id( $company_id ) {
+		$this->company_id = $company_id;
+	}
+
+	/**
 	 * Get link key.
 	 *
 	 * @return string|null
@@ -660,6 +689,14 @@ class Email {
 		if ( ! empty( $subscription_id ) ) {
 			$data['subscription_id']   = $subscription_id;
 			$format['subscription_id'] = '%d';
+		}
+
+		// Company ID.
+		$company_id = $this->get_company_id();
+
+		if ( ! empty( $company_id ) ) {
+			$data['company_id']   = $company_id;
+			$format['company_id'] = '%d';
 		}
 
 		// Headers.
