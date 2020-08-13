@@ -19,7 +19,7 @@ class EmailMessagesController {
 	}
 
 	/**
-	 * Initailize.
+	 * Initialize.
 	 */
 	public function init() {
 		$slug = 'email-messages';
