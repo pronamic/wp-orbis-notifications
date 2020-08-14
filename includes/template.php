@@ -1,11 +1,10 @@
 <?php
 
 /**
- * Orbis company sections subscriptions.
+ * Orbis company section email messages.
  *
- * @param $sections
- *
- * @return mixed
+ * @param array $sections Sections.
+ * @return array
  */
 function orbis_company_sections_email_messages( $sections ) {
 	$sections[] = array(

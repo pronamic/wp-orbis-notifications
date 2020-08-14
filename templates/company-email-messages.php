@@ -44,12 +44,9 @@ if ( $email_messages ) : ?>
 	<table class="table table-striped mb-0">
 		<thead>
 			<tr>
-				<th scope="col"><?php \esc_html_e( 'ID', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'Created', 'orbis-notifications' ); ?></th>
-				<th scope="col"><?php \esc_html_e( 'From', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'To', 'orbis-notifications' ); ?></th>
 				<th scope="col"><?php \esc_html_e( 'Subject', 'orbis-notifications' ); ?></th>
-				<th scope="col"><i class="fas fa-link"></i></th>
 			</tr>
 		</thead>
 
@@ -58,19 +55,17 @@ if ( $email_messages ) : ?>
 			<?php foreach ( $email_messages as $email_message ) : ?>
 
 				<tr>
-					<td><?php echo \esc_html( $email_message->id ); ?></td>
 					<td><?php echo \esc_html( ( new \DateTimeImmutable( $email_message->created_at, $utc ) )->setTimezone( $tz )->format( 'd-m-Y H:i:s' ) ); ?></td>
-					<td><?php echo \esc_html( $email_message->from_email ); ?></td>
 					<td><?php echo \esc_html( $email_message->to_email ); ?></td>
-					<td><?php echo \esc_html( $email_message->subject ); ?></td>
 					<td>
 						<?php
 
 						$url = \home_url( \user_trailingslashit( 'email-messages/' . $email_message->id ) );
 
 						\printf(
-							'<a href="%s"><i class="fas fa-link"></i></a>',
-							\esc_url( $url )
+							'<a href="%s">%s</a>',
+							\esc_url( $url ),
+							\esc_html( $email_message->subject )
 						);
 
 						?>
