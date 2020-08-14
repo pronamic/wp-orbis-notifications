@@ -25,3 +25,14 @@ function orbis_company_sections_email_messages( $sections ) {
 }
 
 add_filter( 'orbis_company_sections', 'orbis_company_sections_email_messages', 30 );
+
+/**
+ * Orbis subscription email messages.
+ *
+ * @return void
+ */
+function orbis_notifications_subscription_email_messages() {
+	require __DIR__ . '/../templates/subscription-email-messages.php';
+}
+
+add_filter( 'orbis_after_main_content', 'orbis_notifications_subscription_email_messages' );
