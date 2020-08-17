@@ -81,7 +81,7 @@ if ( $email_messages ) : ?>
 
 	<div class="card-body">
 		<p class="text-muted m-0">
-			<?php esc_html_e( 'No email messages found.', 'orbis_subscriptions' ); ?>
+			<?php esc_html_e( 'No email messages found.', 'orbis-notifications' ); ?>
 		</p>
 	</div>
 

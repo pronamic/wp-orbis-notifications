@@ -77,4 +77,12 @@ if ( $email_messages ) : ?>
 		</tbody>
 	</table>
 
+<?php else : ?>
+
+	<div class="card-body">
+		<p class="text-muted m-0">
+			<?php esc_html_e( 'No email messages found.', 'orbis-notifications' ); ?>
+		</p>
+	</div>
+
 <?php endif; ?>
