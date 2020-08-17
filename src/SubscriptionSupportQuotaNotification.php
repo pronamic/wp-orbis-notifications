@@ -211,6 +211,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 							timesheet.subscription_id = subscription.id
 								AND
 							timesheet.date > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW() ) YEAR )
+								AND
+							timesheet.date < DATE_SUB( NOW(), INTERVAL 1 WEEK )
 						)
 					LEFT JOIN
 				{$wpdb->prefix}p2p AS user_company_p2p
