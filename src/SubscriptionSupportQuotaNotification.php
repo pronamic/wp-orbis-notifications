@@ -115,13 +115,27 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$message        = \strtr( $email->get_message(), $replacements );
 			$preheader_text = \strtr( $email->get_preheader_text(), $replacements );
 
+			$from = \get_option( 'orbis_notifications_from_address' );
+
+			if ( empty( $from ) ) {
+				$from = \get_option( 'admin_email' );
+			}
+
 			$email->set_to( $event->user_email );
-			$email->set_from( \get_option( 'admin_email' ) );
+			$email->set_from( $from );
 			$email->set_subject( $subject );
 			$email->set_message( $message );
 			$email->set_preheader_text( $preheader_text );
 			$email->set_link_key( $link_key );
 
+			// Reply to.
+			$reply_to = \get_option( 'orbis_notifications_reply_to_address' );
+
+			if ( ! empty( $reply_to ) ) {
+				$email->set_reply_to( $reply_to );
+			}
+
+			// Wrap message in HTML template.
 			$email->wrap_message_in_template();
 
 			// Print info message.
