@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-08-13T14:25:52+00:00\n"
+"POT-Creation-Date: 2020-08-17T08:57:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: orbis-notifications\n"
@@ -34,66 +34,68 @@ msgstr ""
 msgid "https://www.pronamic.eu/"
 msgstr ""
 
-#: includes/template.php:13
+#: includes/template.php:12
+#: includes/template.php:38
 msgid "Email messages"
 msgstr ""
 
 #. translators: %d: email ID
-#: src/Services/Email/Email.php:712
+#: src/Services/Email/Email.php:749
 msgid "Failed sending email ID #%d. Message could not be found."
 msgstr ""
 
 #. translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage
-#: src/SubscriptionSupportQuotaNotification.php:128
-msgid "Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → "
+#: src/SubscriptionSupportQuotaNotification.php:143
+msgid "Subscription #%3$s (%4$s - %5$s - %6$s) reached %7$s%% of support quota → "
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:133
+#: src/SubscriptionSupportQuotaNotification.php:148
 msgid "no template for %1$s%% notification to %2$s"
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:136
+#: src/SubscriptionSupportQuotaNotification.php:151
 msgid "%1$s%% notification to %2$s"
 msgstr ""
 
 #: templates/company-email-messages.php:47
-#: templates/email-message.php:65
-#: templates/email-message.php:171
-#: templates/email-messages.php:34
-msgid "ID"
-msgstr ""
-
-#: templates/company-email-messages.php:48
 #: templates/email-message.php:73
 #: templates/email-messages.php:35
+#: templates/subscription-email-messages.php:47
 msgid "Created"
 msgstr ""
 
+#: templates/company-email-messages.php:48
+#: templates/email-message-preview.php:46
+#: templates/email-message.php:97
+#: templates/email-messages.php:37
+#: templates/subscription-email-messages.php:48
+msgid "To"
+msgstr ""
+
 #: templates/company-email-messages.php:49
+#: templates/email-message-preview.php:50
+#: templates/email-message.php:105
+#: templates/email-messages.php:38
+#: templates/subscription-email-messages.php:49
+msgid "Subject"
+msgstr ""
+
 #: templates/email-message-preview.php:42
 #: templates/email-message.php:89
 #: templates/email-messages.php:36
 msgid "From"
 msgstr ""
 
-#: templates/company-email-messages.php:50
-#: templates/email-message-preview.php:46
-#: templates/email-message.php:97
-#: templates/email-messages.php:37
-msgid "To"
-msgstr ""
-
-#: templates/company-email-messages.php:51
-#: templates/email-message-preview.php:50
-#: templates/email-message.php:105
-#: templates/email-messages.php:38
-msgid "Subject"
-msgstr ""
-
 #: templates/email-message.php:58
 msgid "Email"
+msgstr ""
+
+#: templates/email-message.php:65
+#: templates/email-message.php:171
+#: templates/email-messages.php:34
+msgid "ID"
 msgstr ""
 
 #: templates/email-message.php:81

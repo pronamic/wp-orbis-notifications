@@ -140,7 +140,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 
 			// Print info message.
 			/* translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage */
-			$format = __( 'Subscription #%3$s (%4$s - %5$s) reached %6$s%% of support quota → ', 'orbis-notifications' );
+			$format = __( 'Subscription #%3$s (%4$s - %5$s - %6$s) reached %7$s%% of support quota → ', 'orbis-notifications' );
 
 			// Check if template for notification was found.
 			if ( null === $template ) {
@@ -158,10 +158,11 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$event->subscription_id,
 				$event->company_name,
 				$event->product_name,
+				$event->subscription_name,
 				$event->time_percentage
 			);
 
-			// Skip saving and sending emails if dry run.
+			// Skip saving email if dry run.
 			if ( $this->dry_run ) {
 				continue;
 			}
