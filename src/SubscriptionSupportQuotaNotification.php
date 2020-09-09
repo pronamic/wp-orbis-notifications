@@ -249,11 +249,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 							)
 					)
 			WHERE
-				product.name IN (
-					'WordPress onderhoud XS',
-					'WordPress onderhoud S',
-					'WordPress onderhoud M'
-				)
+				product.type = 'wp_support'
 					AND
 				(
 					subscription.cancel_date IS NULL
