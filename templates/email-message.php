@@ -24,7 +24,9 @@ $query = $wpdb->prepare(
 $item = $wpdb->get_row( $query );
 
 if ( empty( $item ) ) {
-	return \get_404_template();
+	include \get_404_template();
+
+	exit;
 }
 
 $query = $wpdb->prepare(
