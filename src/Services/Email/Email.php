@@ -132,7 +132,7 @@ class Email {
 	public function __construct( $id = null ) {
 		$this->number_attempts = 0;
 		$this->sent            = false;
-		$this->test_mode       = true;
+		$this->test_mode       = false;
 
 		// Load email.
 		if ( null !== $id ) {
