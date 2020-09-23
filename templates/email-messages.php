@@ -18,10 +18,6 @@ $query = "
 
 $data = $wpdb->get_results( $query );
 
-if ( empty( $data ) ) {
-	return \get_404_template();
-}
-
 $utc = new \DateTimeZone( 'UTC' );
 $tz  = \wp_timezone();
 
