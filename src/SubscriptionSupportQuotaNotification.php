@@ -257,7 +257,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 					subscription.expiration_date > NOW()
 				)
 			GROUP BY
-				subscription.id
+				user.ID, subscription.id
 			HAVING
 				MAX( timesheet.date ) > DATE_SUB( NOW(), INTERVAL 1 MONTH )
 					AND
