@@ -203,7 +203,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$wpdb->orbis_companies AS company
 						ON subscription.company_id = company.id
 					INNER JOIN
-				$wpdb->orbis_subscription_products AS product
+				$wpdb->orbis_products AS product
 						ON subscription.type_id = product.id
 					LEFT JOIN
 				$wpdb->orbis_timesheets AS timesheet
