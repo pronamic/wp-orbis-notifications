@@ -5,7 +5,10 @@
 		}
 	},
 	"config": {
-		"sort-packages": true
+		"sort-packages": true,
+		"allow-plugins": {
+			"roots/wordpress-core-installer": true
+		}
 	},
 	"require-dev": {
 		"roots/wordpress": "^5.4",
