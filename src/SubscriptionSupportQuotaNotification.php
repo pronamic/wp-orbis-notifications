@@ -102,7 +102,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				'{product_id}'              => $event->product_id,
 				'{product_name}'            => $event->product_name,
 				'{product_time_per_year}'   => ( $event->product_time_per_year > 0 ? ( $event->product_time_per_year / HOUR_IN_SECONDS ) : 0 ),
-				'{product_registered_time}' => ( $event->product_registered_time > 0 ? ( $event->product_registered_time / HOUR_IN_SECONDS ) : 0 ),
+				'{registered_time}'         => ( $event->registered_time > 0 ? ( $event->registered_time / HOUR_IN_SECONDS ) : 0 ),
 				'{time_percentage}'         => $event->time_percentage,
 				'{user_id}'                 => $event->user_id,
 				'{user_display_name}'       => $event->user_display_name,
@@ -195,8 +195,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				user.ID                                                                    AS user_id,
 				user.display_name                                                          AS user_display_name,
 				user.user_email                                                            AS user_email,
-				email_message.created_at                                                           AS email_created_at,
-				email_message.template_id                                                          AS email_template_id
+				email_message.created_at                                                   AS email_created_at,
+				email_message.template_id                                                  AS email_template_id
 			FROM
 				$wpdb->orbis_subscriptions AS subscription
 					INNER JOIN
@@ -262,7 +262,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				MAX( timesheet.date ) > DATE_SUB( NOW(), INTERVAL 1 MONTH )
 					AND
 				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) >= %d
-					AND				
+					AND
 				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d";
 
 		$query = $wpdb->prepare(
