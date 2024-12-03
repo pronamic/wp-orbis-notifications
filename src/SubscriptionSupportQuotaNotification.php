@@ -181,97 +181,96 @@ class SubscriptionSupportQuotaNotification extends Notification {
 		global $wpdb;
 
 		// Find subscriptions within support quota threshold.
-		$query = "
-			SELECT
-				company.id                                                                 AS company_id,
-				company.name                                                               AS company_name,
-				subscription.id                                                            AS subscription_id,
-				subscription.name                                                          AS subscription_name,
-				product.id                                                                 AS product_id,
-				product.name                                                               AS product_name,
-				product.time_per_year                                                      AS product_time_per_year,
-				SUM( timesheet.number_seconds )                                            AS registered_time,
-				FLOOR( ( 100 / product.time_per_year * SUM( timesheet.number_seconds ) ) ) AS time_percentage,
-				user.ID                                                                    AS user_id,
-				user.display_name                                                          AS user_display_name,
-				user.user_email                                                            AS user_email,
-				email_message.created_at                                                   AS email_created_at,
-				email_message.template_id                                                  AS email_template_id
-			FROM
-				$wpdb->orbis_subscriptions AS subscription
-					INNER JOIN
-				$wpdb->orbis_companies AS company
-						ON subscription.company_id = company.id
-					INNER JOIN
-				$wpdb->orbis_products AS product
-						ON subscription.type_id = product.id
-					LEFT JOIN
-				$wpdb->orbis_timesheets AS timesheet
-						ON (
-							timesheet.subscription_id = subscription.id
-								AND
-							timesheet.date > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW() ) YEAR )
-								AND
-							timesheet.date < DATE_SUB( NOW(), INTERVAL 1 WEEK )
-						)
-					LEFT JOIN
-				{$wpdb->prefix}p2p AS user_company_p2p
-						ON (
-							user_company_p2p.p2p_type = 'orbis_users_to_companies'
-								AND
-							user_company_p2p.p2p_to = company.post_id
-						)
-					LEFT JOIN
-				$wpdb->users AS user
-						ON user_company_p2p.p2p_from = user.ID
-					LEFT JOIN
-				$wpdb->orbis_email_messages AS email_message
-					ON (
-					    email_message.subscription_id = subscription.id
-					    	AND
-					    email_message.user_id = user.ID
-					    	AND
-					    email_message.created_at =
-					    	(
-						        SELECT
-						            created_at
-						        FROM
-						            $wpdb->orbis_email_messages
-						        WHERE
-						            subscription_id = subscription.id
-						                AND
-						            user_id = user.ID
-						                AND
-						            created_at > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW( ) ) YEAR )
-						        ORDER BY
-						        	created_at DESC
-								LIMIT 1
+		$subscriptions = $wpdb->get_results(
+			$wpdb->prepare(
+				"
+				SELECT
+					company.id                                                                 AS company_id,
+					company.name                                                               AS company_name,
+					subscription.id                                                            AS subscription_id,
+					subscription.name                                                          AS subscription_name,
+					product.id                                                                 AS product_id,
+					product.name                                                               AS product_name,
+					product.time_per_year                                                      AS product_time_per_year,
+					SUM( timesheet.number_seconds )                                            AS registered_time,
+					FLOOR( ( 100 / product.time_per_year * SUM( timesheet.number_seconds ) ) ) AS time_percentage,
+					user.ID                                                                    AS user_id,
+					user.display_name                                                          AS user_display_name,
+					user.user_email                                                            AS user_email,
+					email_message.created_at                                                   AS email_created_at,
+					email_message.template_id                                                  AS email_template_id
+				FROM
+					$wpdb->orbis_subscriptions AS subscription
+						INNER JOIN
+					$wpdb->orbis_companies AS company
+							ON subscription.company_id = company.id
+						INNER JOIN
+					$wpdb->orbis_products AS product
+							ON subscription.type_id = product.id
+						LEFT JOIN
+					$wpdb->orbis_timesheets AS timesheet
+							ON (
+								timesheet.subscription_id = subscription.id
+									AND
+								timesheet.date > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW() ) YEAR )
+									AND
+								timesheet.date < DATE_SUB( NOW(), INTERVAL 1 WEEK )
 							)
+						LEFT JOIN
+					{$wpdb->prefix}p2p AS user_company_p2p
+							ON (
+								user_company_p2p.p2p_type = 'orbis_users_to_companies'
+									AND
+								user_company_p2p.p2p_to = company.post_id
+							)
+						LEFT JOIN
+					$wpdb->users AS user
+							ON user_company_p2p.p2p_from = user.ID
+						LEFT JOIN
+					$wpdb->orbis_email_messages AS email_message
+						ON (
+					    	email_message.subscription_id = subscription.id
+					    		AND
+					    	email_message.user_id = user.ID
+					    		AND
+					    	email_message.created_at =
+					    		(
+						        	SELECT
+						            	created_at
+						        	FROM
+						            	$wpdb->orbis_email_messages
+						        	WHERE
+						            	subscription_id = subscription.id
+						                	AND
+						            	user_id = user.ID
+						                	AND
+						            	created_at > DATE_ADD( subscription.activation_date, INTERVAL TIMESTAMPDIFF( YEAR, subscription.activation_date, NOW( ) ) YEAR )
+						        	ORDER BY
+						        		created_at DESC
+									LIMIT 1
+								)
+						)
+				WHERE
+					product.type = 'wp_support'
+						AND
+					(
+						subscription.cancel_date IS NULL
+							OR
+						subscription.expiration_date > NOW()
 					)
-			WHERE
-				product.type = 'wp_support'
-					AND
-				(
-					subscription.cancel_date IS NULL
-						OR
-					subscription.expiration_date > NOW()
-				)
-			GROUP BY
-				user.ID, subscription.id
-			HAVING
-				MAX( timesheet.date ) > DATE_SUB( NOW(), INTERVAL 1 MONTH )
-					AND
-				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) >= %d
-					AND
-				CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d";
-
-		$query = $wpdb->prepare(
-			$query,
-			$this->min_threshold,
-			$this->max_threshold
+				GROUP BY
+					user.ID, subscription.id
+				HAVING
+					MAX( timesheet.date ) > DATE_SUB( NOW(), INTERVAL 1 MONTH )
+						AND
+					CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) >= %d
+						AND
+					CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d
+				",
+				$this->min_threshold,
+				$this->max_threshold
+			)
 		);
-
-		$subscriptions = $wpdb->get_results( $query );
 
 		return $subscriptions;
 	}
