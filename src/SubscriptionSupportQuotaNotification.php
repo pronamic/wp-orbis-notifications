@@ -113,7 +113,12 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			// Data.
 			$subject        = \strtr( $email->get_subject(), $replacements );
 			$message        = \strtr( $email->get_message(), $replacements );
-			$preheader_text = \strtr( $email->get_preheader_text(), $replacements );
+
+			$preheader_text = $email->get_preheader_text();
+
+			if ( null !== $preheader_text ) {
+				$preheader_text = \strtr( $preheader_text, $replacements );
+			}
 
 			$from = \get_option( 'orbis_notifications_from_address' );
 
