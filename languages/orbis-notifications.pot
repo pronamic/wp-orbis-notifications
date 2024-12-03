@@ -1,5 +1,5 @@
-# Copyright (C) 2020 Pronamic
-# This file is distributed under the same license as the Orbis Notifications plugin.
+# Copyright (C) 2024 Pronamic
+# This file is distributed under the Copyright (c) Pronamic.
 msgid ""
 msgstr ""
 "Project-Id-Version: Orbis Notifications 1.0.0\n"
@@ -9,28 +9,33 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-08-17T11:23:51+00:00\n"
+"POT-Creation-Date: 2024-12-03T16:19:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.4.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: orbis-notifications\n"
 
 #. Plugin Name of the plugin
+#: orbis-notifications.php
 msgid "Orbis Notifications"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: orbis-notifications.php
 msgid "https://www.pronamic.eu/plugins/orbis-notifications/"
 msgstr ""
 
 #. Description of the plugin
+#: orbis-notifications.php
 msgid "The Orbis Notifications plugin extends your Orbis environment with notifications."
 msgstr ""
 
 #. Author of the plugin
+#: orbis-notifications.php
 msgid "Pronamic"
 msgstr ""
 
 #. Author URI of the plugin
+#: orbis-notifications.php
 msgid "https://www.pronamic.eu/"
 msgstr ""
 
@@ -39,45 +44,58 @@ msgstr ""
 msgid "Email messages"
 msgstr ""
 
+#: src/Admin.php:39
+msgid "Notifications"
+msgstr ""
+
+#: src/Admin.php:46
+msgctxt "notifications"
+msgid "Additional recipient for 100% quota notifications"
+msgstr ""
+
+#: src/Admin.php:69
+msgid "No additional recipient"
+msgstr ""
+
 #. translators: %d: email ID
 #: src/Services/Email/Email.php:749
 msgid "Failed sending email ID #%d. Message could not be found."
 msgstr ""
 
 #. translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage
-#: src/SubscriptionSupportQuotaNotification.php:143
+#: src/SubscriptionSupportQuotaNotification.php:148
 msgid "Subscription #%3$s (%4$s - %5$s - %6$s) reached %7$s%% of support quota → "
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:148
+#: src/SubscriptionSupportQuotaNotification.php:153
 msgid "no template for %1$s%% notification to %2$s"
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:151
+#: src/SubscriptionSupportQuotaNotification.php:156
 msgid "%1$s%% notification to %2$s"
 msgstr ""
 
 #: templates/company-email-messages.php:47
-#: templates/email-message.php:73
-#: templates/email-messages.php:35
+#: templates/email-message.php:75
+#: templates/email-messages.php:31
 #: templates/subscription-email-messages.php:47
 msgid "Created"
 msgstr ""
 
 #: templates/company-email-messages.php:48
-#: templates/email-message-preview.php:46
-#: templates/email-message.php:97
-#: templates/email-messages.php:37
+#: templates/email-message-preview.php:48
+#: templates/email-message.php:99
+#: templates/email-messages.php:33
 #: templates/subscription-email-messages.php:48
 msgid "To"
 msgstr ""
 
 #: templates/company-email-messages.php:49
-#: templates/email-message-preview.php:50
-#: templates/email-message.php:105
-#: templates/email-messages.php:38
+#: templates/email-message-preview.php:52
+#: templates/email-message.php:107
+#: templates/email-messages.php:34
 #: templates/subscription-email-messages.php:49
 msgid "Subject"
 msgstr ""
@@ -87,54 +105,54 @@ msgstr ""
 msgid "No email messages found."
 msgstr ""
 
-#: templates/email-message-preview.php:42
-#: templates/email-message.php:89
-#: templates/email-messages.php:36
+#: templates/email-message-preview.php:44
+#: templates/email-message.php:91
+#: templates/email-messages.php:32
 msgid "From"
 msgstr ""
 
-#: templates/email-message.php:58
+#: templates/email-message.php:60
 msgid "Email"
 msgstr ""
 
-#: templates/email-message.php:65
-#: templates/email-message.php:171
-#: templates/email-messages.php:34
+#: templates/email-message.php:67
+#: templates/email-message.php:173
+#: templates/email-messages.php:30
 msgid "ID"
 msgstr ""
 
-#: templates/email-message.php:81
+#: templates/email-message.php:83
 msgid "Updated"
 msgstr ""
 
-#: templates/email-message.php:113
+#: templates/email-message.php:115
 msgid "Link Key"
 msgstr ""
 
-#: templates/email-message.php:121
+#: templates/email-message.php:123
 msgid "Email Tracking Image Link"
 msgstr ""
 
-#: templates/email-message.php:137
+#: templates/email-message.php:139
 msgid "Preview Link"
 msgstr ""
 
-#: templates/email-message.php:157
+#: templates/email-message.php:159
 msgid "Email Preview"
 msgstr ""
 
-#: templates/email-message.php:165
+#: templates/email-message.php:167
 msgid "Email Tracking"
 msgstr ""
 
-#: templates/email-message.php:172
+#: templates/email-message.php:174
 msgid "IP Address"
 msgstr ""
 
-#: templates/email-message.php:173
+#: templates/email-message.php:175
 msgid "User Agent"
 msgstr ""
 
-#: templates/email-message.php:174
+#: templates/email-message.php:176
 msgid "Request Time"
 msgstr ""
