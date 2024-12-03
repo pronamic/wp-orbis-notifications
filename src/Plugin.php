@@ -46,6 +46,10 @@ class Plugin extends Orbis_Plugin {
 
 		// Email messages controller.
 		( new EmailMessagesController() )->setup();
+
+		if ( is_admin() ) {
+			new Admin();
+		}
 	}
 
 	/**

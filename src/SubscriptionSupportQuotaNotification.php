@@ -185,6 +185,12 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	private function get_events() {
 		global $wpdb;
 
+		$additional_recipient_user_id = null;
+
+		if ( $this->min_threshold === 100 && $this->max_threshold > 100 ) {
+			$additional_recipient_user_id = \get_option( 'orbis_notifications_additional_recipient_user_id' );
+		}
+
 		// Find subscriptions within support quota threshold.
 		$subscriptions = $wpdb->get_results(
 			$wpdb->prepare(
@@ -230,7 +236,11 @@ class SubscriptionSupportQuotaNotification extends Notification {
 							)
 						LEFT JOIN
 					$wpdb->users AS user
-							ON user_company_p2p.p2p_from = user.ID
+							ON (
+								user_company_p2p.p2p_from = user.ID
+									OR
+								user.ID = %s
+							)
 						LEFT JOIN
 					$wpdb->orbis_email_messages AS email_message
 						ON (
@@ -272,6 +282,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 						AND
 					CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d
 				",
+				intval( $additional_recipient_user_id ),
 				$this->min_threshold,
 				$this->max_threshold
 			)
