@@ -33,6 +33,13 @@ class Email {
 	private $to;
 
 	/**
+	 * Bcc email address.
+	 *
+	 * @var string|null
+	 */
+	private $bcc;
+
+	/**
 	 * From address.
 	 *
 	 * @var string|null
@@ -274,6 +281,26 @@ class Email {
 	 */
 	public function set_to( $to ) {
 		$this->to = $to;
+	}
+
+	/**
+	 * Get 'Bcc'.
+	 *
+	 * @return string|null
+	 */
+	public function get_bcc() {
+		return $this->bcc;
+	}
+
+	/**
+	 * Set 'Bcc'.
+	 *
+	 * @param string|null $bcc Bcc address.
+	 *
+	 * @return void
+	 */
+	public function set_bcc( $bcc ) {
+		$this->bcc = $bcc;
 	}
 
 	/**
@@ -572,6 +599,13 @@ class Email {
 
 		if ( ! empty( $from ) ) {
 			$headers[] = 'From: ' . $from;
+		}
+
+		// Bcc.
+		$bcc = $this->get_bcc();
+
+		if ( ! empty( $bcc ) ) {
+			$headers[] = 'Bcc: ' . $bcc;
 		}
 
 		// Reply to.

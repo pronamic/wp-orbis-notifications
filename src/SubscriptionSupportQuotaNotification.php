@@ -140,6 +140,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$email->set_reply_to( $reply_to );
 			}
 
+			// Additional recipient.
 			if ( 100 === $this->min_threshold && $this->max_threshold > 100 ) {
 				$additional_recipient_user_id = \get_option( 'orbis_notifications_additional_recipient_user_id' );
 
