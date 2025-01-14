@@ -126,7 +126,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$from = \get_option( 'admin_email' );
 			}
 
-			// $email->set_to( $event->user_email );
+			$email->set_to( $event->user_email );
 			$email->set_from( $from );
 			$email->set_subject( $subject );
 			$email->set_message( $message );
