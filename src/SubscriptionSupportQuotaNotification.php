@@ -126,7 +126,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$from = \get_option( 'admin_email' );
 			}
 
-			$email->set_to( $event->user_email );
+			// $email->set_to( $event->user_email );
 			$email->set_from( $from );
 			$email->set_subject( $subject );
 			$email->set_message( $message );
@@ -184,7 +184,16 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			}
 
 			// Save email in database.
-			$email->save();
+			try {
+				$email->save();
+			} catch ( \Exception $e ) {
+				printf(
+					\__( 'Unable to send "%1$s" to %2$s, error: "%3$s"', 'orbis-notifications' ) . \PHP_EOL,
+					\esc_html( $subject ),
+					\esc_html( $event->user_email ),
+					$e->getMessage()
+				);
+			}
 		}
 	}
 
