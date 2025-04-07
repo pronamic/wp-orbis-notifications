@@ -11,6 +11,7 @@
 namespace Pronamic\WordPress\Orbis\Notifications;
 
 use InvalidArgumentException;
+use WP_CLI;
 
 /**
  * Subscription support quota notification
@@ -167,15 +168,17 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$format .= __( '%1$s%% notification to %2$s', 'orbis-notifications' );
 			}
 
-			\printf(
-				$format . \PHP_EOL,
-				$this->min_threshold,
-				$event->user_email,
-				$event->subscription_id,
-				$event->company_name,
-				$event->product_name,
-				$event->subscription_name,
-				$event->time_percentage
+			$this->log(
+				\sprintf(
+					$format,
+					$this->min_threshold,
+					$event->user_email,
+					$event->subscription_id,
+					$event->company_name,
+					$event->product_name,
+					$event->subscription_name,
+					$event->time_percentage
+				)
 			);
 
 			// Skip saving email if dry run.
@@ -200,7 +203,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	/**
 	 * Get exceeded quota subscriptions.
 	 *
-	 * @return array<int,int>
+	 * @return array<int,object>
 	 */
 	private function get_events() {
 		global $wpdb;
@@ -313,5 +316,17 @@ class SubscriptionSupportQuotaNotification extends Notification {
 		);
 
 		return $subscriptions;
+	}
+
+	/**
+	 * Log.
+	 *
+	 * @param string $message Message.
+	 * @return void
+	 */
+	private function log( $message ) {
+		if ( \method_exists( WP_CLI::class, 'log' ) ) {
+			WP_CLI::log( $message );
+		}
 	}
 }
