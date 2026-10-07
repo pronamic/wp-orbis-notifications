@@ -1,4 +1,4 @@
-# Copyright (C) 2024 Pronamic
+# Copyright (C) 2026 Pronamic
 # This file is distributed under the Copyright (c) Pronamic.
 msgid ""
 msgstr ""
@@ -9,33 +9,33 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-03T16:19:38+00:00\n"
+"POT-Creation-Date: 2026-10-07T12:13:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: orbis-notifications\n"
 
 #. Plugin Name of the plugin
-#: orbis-notifications.php
+#: orbis-notifications.php:11
 msgid "Orbis Notifications"
 msgstr ""
 
 #. Plugin URI of the plugin
-#: orbis-notifications.php
+#: orbis-notifications.php:12
 msgid "https://www.pronamic.eu/plugins/orbis-notifications/"
 msgstr ""
 
 #. Description of the plugin
-#: orbis-notifications.php
+#: orbis-notifications.php:13
 msgid "The Orbis Notifications plugin extends your Orbis environment with notifications."
 msgstr ""
 
 #. Author of the plugin
-#: orbis-notifications.php
+#: orbis-notifications.php:16
 msgid "Pronamic"
 msgstr ""
 
 #. Author URI of the plugin
-#: orbis-notifications.php
+#: orbis-notifications.php:17
 msgid "https://www.pronamic.eu/"
 msgstr ""
 
@@ -58,23 +58,33 @@ msgid "No additional recipient"
 msgstr ""
 
 #. translators: %d: email ID
-#: src/Services/Email/Email.php:749
+#: src/Services/Email/Email.php:783
+#, php-format
 msgid "Failed sending email ID #%d. Message could not be found."
 msgstr ""
 
 #. translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage
-#: src/SubscriptionSupportQuotaNotification.php:148
+#: src/SubscriptionSupportQuotaNotification.php:160
+#, php-format
 msgid "Subscription #%3$s (%4$s - %5$s - %6$s) reached %7$s%% of support quota → "
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:153
+#: src/SubscriptionSupportQuotaNotification.php:165
+#, php-format
 msgid "no template for %1$s%% notification to %2$s"
 msgstr ""
 
 #. translators: 1: min threshold, 2: user email
-#: src/SubscriptionSupportQuotaNotification.php:156
+#: src/SubscriptionSupportQuotaNotification.php:168
+#, php-format
 msgid "%1$s%% notification to %2$s"
+msgstr ""
+
+#. translators: 1: email subject, 2: user email, 3: error message
+#: src/SubscriptionSupportQuotaNotification.php:195
+#, php-format
+msgid "Unable to send \"%1$s\" to %2$s, error: \"%3$s\""
 msgstr ""
 
 #: templates/company-email-messages.php:47

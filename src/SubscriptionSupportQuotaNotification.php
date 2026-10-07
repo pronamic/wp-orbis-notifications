@@ -191,6 +191,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				$email->save();
 			} catch ( \Exception $e ) {
 				printf(
+					/* translators: 1: email subject, 2: user email, 3: error message */
 					\__( 'Unable to send "%1$s" to %2$s, error: "%3$s"', 'orbis-notifications' ) . \PHP_EOL,
 					\esc_html( $subject ),
 					\esc_html( $event->user_email ),

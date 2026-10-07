@@ -35,9 +35,6 @@ class CLI {
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 
-		// WP-CLI commands.
-		require_once 'i18n-make-pot.php';
-
 		// Execute all notifications.
 		\WP_CLI::add_command(
 			'orbis notifications run',
