@@ -209,6 +209,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	private function get_events() {
 		global $wpdb;
 
+		$contacts_table = $wpdb->prefix . 'orbis_contacts';
+
 		// Find subscriptions within support quota threshold.
 		$subscriptions = $wpdb->get_results(
 			$wpdb->prepare(
@@ -221,8 +223,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 					exceeded_subscription.product_time_per_year AS product_time_per_year,
 					exceeded_subscription.registered_time       AS registered_time,
 					exceeded_subscription.time_percentage       AS time_percentage,
-					company.id                                  AS company_id,
-					company.name                                AS company_name,
+					customer.id                                 AS company_id,
+					customer.name                               AS company_name,
 					user.ID                                     AS user_id,
 					user.display_name                           AS user_display_name,
 					user.user_email                             AS user_email,
@@ -233,7 +235,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 						SELECT
 							subscription.id                                                                        AS subscription_id,
 							subscription.name                                                                      AS subscription_name,
-							subscription.company_id                                                                AS company_id,
+							subscription.customer_id                                                               AS customer_id,
 							subscription.activation_date                                                           AS activation_date,
 							product.id                                                                             AS product_id,
 							product.name                                                                           AS product_name,
@@ -244,7 +246,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 							$wpdb->orbis_subscriptions AS subscription
 								INNER JOIN
 							$wpdb->orbis_products AS product
-									ON subscription.type_id = product.id
+									ON subscription.product_id = product.id
 								LEFT JOIN
 							$wpdb->orbis_timesheets AS timesheet
 									ON (
@@ -272,18 +274,18 @@ class SubscriptionSupportQuotaNotification extends Notification {
 							CAST( ( 100 / MIN( product.time_per_year ) * SUM( timesheet.number_seconds ) ) AS UNSIGNED ) < %d
 					) AS exceeded_subscription
 						INNER JOIN
-					$wpdb->orbis_companies AS company
-							ON exceeded_subscription.company_id = company.id
-						LEFT JOIN
-					{$wpdb->prefix}p2p AS user_company_p2p
+					$contacts_table AS customer
+							ON exceeded_subscription.customer_id = customer.id
+						INNER JOIN
+					{$wpdb->prefix}p2p AS user_organization_p2p
 							ON (
-								user_company_p2p.p2p_type = 'orbis_users_to_companies'
+								user_organization_p2p.p2p_type = 'orbis_users_to_organizations'
 									AND
-								user_company_p2p.p2p_to = company.post_id
+								user_organization_p2p.p2p_to = customer.post_id
 							)
-						LEFT JOIN
+						INNER JOIN
 					$wpdb->users AS user
-							ON user_company_p2p.p2p_from = user.ID
+							ON user_organization_p2p.p2p_from = user.ID
 						LEFT JOIN
 					$wpdb->orbis_email_messages AS email_message
 						ON (
