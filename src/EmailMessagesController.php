@@ -10,12 +10,12 @@ class EmailMessagesController {
 	 * Setup.
 	 */
 	public function setup() {
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', $this->init(...) );
 
-		add_filter( 'query_vars', array( $this, 'query_vars' ) );
+		add_filter( 'query_vars', $this->query_vars(...) );
 
-		add_filter( 'template_include', array( $this, 'template_include_email_messages' ) );
-		add_filter( 'template_include', array( $this, 'template_include_email_message' ) );
+		add_filter( 'template_include', $this->template_include_email_messages(...) );
+		add_filter( 'template_include', $this->template_include_email_message(...) );
 	}
 
 	/**
@@ -31,28 +31,28 @@ class EmailMessagesController {
 		// Matching
 		add_rewrite_rule(
 			$slug . '/?$',
-			array(
+			[
 				'orbis_email_messages' => true,
-			),
+			],
 			'top'
 		);
 
 		add_rewrite_rule(
 			$slug . '/' . $match_dir . '/?$',
-			array(
+			[
 				'orbis_email_messages'   => true,
 				'orbis_email_message_id' => '$matches[1]',
-			),
+			],
 			'top'
 		);
 
 		add_rewrite_rule(
 			$slug . '/' . $match_dir . '/' . $match_dir . '/?$',
-			array(
+			[
 				'orbis_email_messages'     => true,
 				'orbis_email_message_id'   => '$matches[1]',
 				'orbis_email_message_view' => '$matches[2]',
-			),
+			],
 			'top'
 		);
 	}

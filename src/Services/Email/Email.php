@@ -589,10 +589,10 @@ class Email {
 	 * @return array
 	 */
 	public function build_headers() {
-		$headers = array(
+		$headers = [
 			'Content-Type: text/html; charset=' . get_option( 'blog_charset' ),
 			'Mime-Version: 1.0',
-		);
+		];
 
 		// From.
 		$from = $this->get_from();
@@ -622,7 +622,7 @@ class Email {
 	 * Get attachments.
 	 */
 	public function get_attachments() {
-		return array();
+		return [];
 	}
 
 	/**
@@ -666,7 +666,7 @@ class Email {
 	 */
 	public function get_data() {
 		// Data.
-		$data = array(
+		$data = [
 			'created_at' => current_time( 'mysql', true ),
 			'updated_at' => current_time( 'mysql', true ),
 			'to_email'   => $this->get_to(),
@@ -674,10 +674,10 @@ class Email {
 			'message'    => $this->get_message(),
 			'link_key'   => $this->get_link_key(),
 			'test_mode'  => $this->is_test_mode(),
-		);
+		];
 
 		// Format.
-		$format = array(
+		$format = [
 			'created_at' => '%s',
 			'updated_at' => '%s',
 			'to_email'   => '%s',
@@ -685,7 +685,7 @@ class Email {
 			'message'    => '%s',
 			'link_key'   => '%s',
 			'test_mode'  => '%d',
-		);
+		];
 
 		// From.
 		$from = $this->get_from();
@@ -741,10 +741,10 @@ class Email {
 		$data['headers']   = $headers;
 		$format['headers'] = '%s';
 
-		return array(
+		return [
 			'data'   => $data,
 			'format' => $format,
-		);
+		];
 	}
 
 	/**

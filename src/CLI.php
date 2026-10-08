@@ -21,63 +21,54 @@ use Pronamic\WordPress\Orbis\Notifications\Services\Email\Mailer;
  */
 class CLI {
 	/**
-	 * Plugin.
-	 *
-	 * @var Plugin
-	 */
-	private $plugin;
-
-	/**
 	 * CLI constructor.
 	 *
 	 * @param Plugin $plugin Plugin.
 	 */
-	public function __construct( Plugin $plugin ) {
-		$this->plugin = $plugin;
-
+	public function __construct( private readonly Plugin $plugin ) {
 		// Execute all notifications.
 		\WP_CLI::add_command(
 			'orbis notifications run',
-			function( $args, $assoc_args ) {
-				$args = array(
+			function( $args, $assoc_args ): void {
+				$args = [
 					'dry_run' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false ),
-				);
+				];
 
 				$this->execute_all_notifications( $args );
 			},
-			array(
+			[
 				'shortdesc' => 'Execute all registered notifications.',
-			)
+			]
 		);
 
 		// Execute subscription support quota notification.
 		\WP_CLI::add_command(
 			'orbis notifications subscription-support-quota-exceeded',
-			function( $args, $assoc_args ) {
-				$options = array(
+			function( $args, $assoc_args ): void {
+				$options = [
 					'min_threshold' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'min-threshold', null ),
 					'max_threshold' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'max-threshold', null ),
 					'dry_run' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false ),
-				);
+				];
 
 				$this->execute_subscription_support_quota_notification( $options );
 			},
-			array(
+			[
 				'shortdesc' => 'Execute a subscription quota exceeded notification for the given quota threshold percentage.',
-			)
+			]
 		);
 
 		// Process mailer queue.
 		\WP_CLI::add_command(
 			'orbis mailer process-queue',
-			function( $args, $assoc_args ) {
+			function( $args, $assoc_args ): void {
 				$mailer = new Mailer();
 
 				$mailer->process_queue();
 			},
-			array(
+			[
 				'shortdesc' => 'Process mailer queue.',
-			)
+			]
 		);
 	}
 
@@ -107,11 +98,11 @@ class CLI {
 	 */
 	private function execute_subscription_support_quota_notification( $options ) {
 		$notification = new SubscriptionSupportQuotaNotification(
-			array(
+			[
 				'min_threshold' => $options['min_threshold'],
 				'max_threshold' => $options['max_threshold'],
 				'dry_run'       => $options['dry_run'],
-			)
+			]
 		);
 
 		$notification->run();

@@ -75,7 +75,7 @@ class Mailer {
 		$is_sent = wp_mail( $to_email, $email_message->subject, $email_message->message, $headers );
 
 		// Update.
-		$data = array(
+		$data = [
 			'id'              => $email_message->id,
 			'to_email'        => $email_message->to_email,
 			'subject'         => $email_message->subject,
@@ -83,9 +83,9 @@ class Mailer {
 			'headers'         => $email_message->headers,
 			'is_sent'         => $is_sent,
 			'number_attempts' => $email_message->number_attempts + 1,
-		);
+		];
 
-		$format = array(
+		$format = [
 			'id'              => '%d',
 			'to_email'        => '%s',
 			'subject'         => '%s',
@@ -93,24 +93,24 @@ class Mailer {
 			'headers'         => '%s',
 			'is_sent'         => '%d',
 			'number_attempts' => '%d',
-		);
+		];
 
 		$result = $wpdb->update(
 			$wpdb->orbis_email_messages,
-			array(
+			[
 				'is_sent'         => $data['is_sent'],
 				'number_attempts' => $data['number_attempts'],
-			),
-			array(
+			],
+			[
 				'id' => $data['id'],
-			),
-			array(
+			],
+			[
 				'is_sent'         => $format['is_sent'],
 				'number_attempts' => $format['number_attempts'],
-			),
-			array(
+			],
+			[
 				'id' => $format['id'],
-			)
+			]
 		);
 
 		if ( false === $result ) {

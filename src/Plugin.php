@@ -19,13 +19,6 @@ namespace Pronamic\WordPress\Orbis\Notifications;
  */
 class Plugin {
 	/**
-	 * Plugin main file.
-	 *
-	 * @var string
-	 */
-	private $file;
-
-	/**
 	 * @var array<int,Notification>
 	 */
 	private $notifications;
@@ -35,9 +28,7 @@ class Plugin {
 	 *
 	 * @param string $file Plugin main file.
 	 */
-	public function __construct( $file ) {
-		$this->file = $file;
-
+	public function __construct( private $file ) {
 		// Tables.
 		global $wpdb;
 
@@ -55,9 +46,9 @@ class Plugin {
 			new Admin();
 		}
 
-		add_action( 'plugins_loaded', [ $this, 'loaded' ] );
+		add_action( 'plugins_loaded', $this->loaded(...) );
 
-		add_action( 'admin_init', [ $this, 'update' ], 5 );
+		add_action( 'admin_init', $this->update(...), 5 );
 	}
 
 	/**
@@ -252,21 +243,21 @@ class Plugin {
 	 * @return void
 	 */
 	private function register_notifications() {
-		$this->notifications = array();
+		$this->notifications = [];
 
 		// Subscription support quota notifications for various quota threshold percentages.
-		$thresholds = array(
-			array( 'min' => 50, 'max' => 75 ),
-			array( 'min' => 75, 'max' => 100 ),
-			array( 'min' => 100, 'max' => 1000 ),
-		);
+		$thresholds = [
+			[ 'min' => 50, 'max' => 75 ],
+			[ 'min' => 75, 'max' => 100 ],
+			[ 'min' => 100, 'max' => 1000 ],
+		];
 
 		foreach ( $thresholds as $threshold ) {
 			$this->notifications[] = new SubscriptionSupportQuotaNotification(
-				array(
+				[
 					'min_threshold' => $threshold['min'],
 					'max_threshold' => $threshold['max'],
-				)
+				]
 			);
 		}
 	}

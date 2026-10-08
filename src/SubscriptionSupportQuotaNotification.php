@@ -47,7 +47,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 	 *
 	 * @param array<string,array|int|string> $options Options.
 	 */
-	public function __construct( $options = array() ) {
+	public function __construct( $options = [] ) {
 		parent::__construct( $options );
 
 		// Check for quota threshold option.
@@ -95,7 +95,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 
 			$link_key = \wp_generate_password( 32, false, false );
 
-			$replacements = array(
+			$replacements = [
 				'{company_id}'              => $event->contact_id,
 				'{company_name}'            => $event->contact_name,
 				'{subscription_id}'         => $event->subscription_id,
@@ -109,7 +109,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 				'{user_display_name}'       => $event->user_display_name,
 				'{user_email}'              => $event->user_email,
 				'{link_key}'                => $link_key,
-			);
+			];
 
 			// Data.
 			$subject        = \strtr( $email->get_subject(), $replacements );

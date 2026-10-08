@@ -19,19 +19,11 @@ namespace Pronamic\WordPress\Orbis\Notifications;
  */
 abstract class Notification {
 	/**
-	 * Options.
-	 *
-	 * @var array<string,array|int|string>
-	 */
-	protected $options;
-
-	/**
 	 * Notification constructor.
 	 *
 	 * @param array<string,array|int|string> $options Options.
 	 */
-	public function __construct( $options ) {
-		$this->options = $options;
+	public function __construct( protected $options ) {
 	}
 
 	/**
