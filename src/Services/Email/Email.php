@@ -110,11 +110,11 @@ class Email {
 	private $subscription_id;
 
 	/**
-	 * Company ID.
+	 * Contact ID.
 	 *
 	 * @var int|null
 	 */
-	private $company_id;
+	private $contact_id;
 
 	/**
 	 * Link key.
@@ -172,7 +172,7 @@ class Email {
 			    template_id,
 				user_id,
 			    subscription_id,
-			    company_id,
+			    contact_id,
 			    link_key,
 			    test_mode
 			FROM
@@ -200,7 +200,7 @@ class Email {
 			$this->set_template_id( $email->template_id );
 			$this->set_user_id( $email->user_id );
 			$this->set_subscription_id( $email->subscription_id );
-			$this->set_company_id( $email->company_id );
+			$this->set_contact_id( $email->contact_id );
 			$this->set_link_key( $email->link_key );
 			$this->set_test_mode( (bool) $email->test_mode );
 
@@ -504,23 +504,23 @@ class Email {
 	}
 
 	/**
-	 * Get company id.
+	 * Get contact id.
 	 *
 	 * @return int|null
 	 */
-	public function get_company_id() {
-		return $this->company_id;
+	public function get_contact_id() {
+		return $this->contact_id;
 	}
 
 	/**
-	 * Set company id.
+	 * Set contact id.
 	 *
-	 * @param int|null $company_id Company id.
+	 * @param int|null $contact_id Contact id.
 	 *
 	 * @return void
 	 */
-	public function set_company_id( $company_id ) {
-		$this->company_id = $company_id;
+	public function set_contact_id( $contact_id ) {
+		$this->contact_id = $contact_id;
 	}
 
 	/**
@@ -725,12 +725,12 @@ class Email {
 			$format['subscription_id'] = '%d';
 		}
 
-		// Company ID.
-		$company_id = $this->get_company_id();
+		// Contact ID.
+		$contact_id = $this->get_contact_id();
 
-		if ( ! empty( $company_id ) ) {
-			$data['company_id']   = $company_id;
-			$format['company_id'] = '%d';
+		if ( ! empty( $contact_id ) ) {
+			$data['contact_id']   = $contact_id;
+			$format['contact_id'] = '%d';
 		}
 
 		// Headers.

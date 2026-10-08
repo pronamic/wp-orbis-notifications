@@ -10,8 +10,6 @@
 
 namespace Pronamic\WordPress\Orbis\Notifications;
 
-use Orbis_Plugin;
-
 /**
  * Admin
  *

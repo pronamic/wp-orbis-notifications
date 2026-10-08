@@ -12,7 +12,8 @@
  * Plugin URI:        https://www.pronamic.eu/plugins/orbis-notifications/
  * Description:       The Orbis Notifications plugin extends your Orbis environment with notifications.
  * Version:           1.0.0
- * Requires at least: 5.2
+ * Requires at least: 7.1
+ * Requires PHP:      8.3
  * Author:            Pronamic
  * Author URI:        https://www.pronamic.eu/
  * Text Domain:       orbis-notifications
@@ -29,10 +30,4 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 /**
  * Bootstrap
  */
-function orbis_notifications_bootstrap() {
-	global $orbis_notifications_plugin;
-
-	$orbis_notifications_plugin = new Pronamic\WordPress\Orbis\Notifications\Plugin( __FILE__ );
-}
-
-\add_action( 'orbis_bootstrap', 'orbis_notifications_bootstrap' );
+new Pronamic\WordPress\Orbis\Notifications\Plugin( __FILE__ );

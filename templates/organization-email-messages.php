@@ -2,15 +2,17 @@
 
 global $wpdb;
 
-$company_id = $wpdb->get_var(
+$contacts_table = $wpdb->prefix . 'orbis_contacts';
+
+$contact_id = $wpdb->get_var(
 	$wpdb->prepare(
 		"
 			SELECT
-			    company.id
+			    contact.id
 			FROM
-			    $wpdb->orbis_companies AS company
+			    $contacts_table AS contact
 			WHERE
-			    company.post_id = %d
+			    contact.post_id = %d
 			;
 			",
 		get_the_ID()
@@ -25,14 +27,14 @@ $email_messages = $wpdb->get_results(
 		FROM
 			$wpdb->orbis_email_messages AS email_message
 		WHERE
-			email_message.company_id = %d
+			email_message.contact_id = %d
 		ORDER BY
 			email_message.created_at DESC
 		LIMIT
 			0, 100
 		;
 		",
-		$company_id
+		$contact_id
 	)
 );
 

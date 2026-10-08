@@ -80,7 +80,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$email = new Services\Email\Email();
 
 			$email->set_subscription_id( $event->subscription_id );
-			$email->set_company_id( $event->company_id );
+			$email->set_contact_id( $event->contact_id );
 			$email->set_user_id( $event->user_id );
 
 			// Template.
@@ -96,8 +96,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$link_key = \wp_generate_password( 32, false, false );
 
 			$replacements = array(
-				'{company_id}'              => $event->company_id,
-				'{company_name}'            => $event->company_name,
+				'{company_id}'              => $event->contact_id,
+				'{company_name}'            => $event->contact_name,
 				'{subscription_id}'         => $event->subscription_id,
 				'{subscription_name}'       => $event->subscription_name,
 				'{product_id}'              => $event->product_id,
@@ -156,7 +156,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$email->wrap_message_in_template();
 
 			// Print info message.
-			/* translators: 3: subscription ID, 4: company name, 5: product name, 6: time percentage */
+			/* translators: 3: subscription ID, 4: contact name, 5: product name, 6: time percentage */
 			$format = __( 'Subscription #%3$s (%4$s - %5$s - %6$s) reached %7$s%% of support quota → ', 'orbis-notifications' );
 
 			// Check if template for notification was found.
@@ -174,7 +174,7 @@ class SubscriptionSupportQuotaNotification extends Notification {
 					$this->min_threshold,
 					$event->user_email,
 					$event->subscription_id,
-					$event->company_name,
+					$event->contact_name,
 					$event->product_name,
 					$event->subscription_name,
 					$event->time_percentage
@@ -223,8 +223,8 @@ class SubscriptionSupportQuotaNotification extends Notification {
 					exceeded_subscription.product_time_per_year AS product_time_per_year,
 					exceeded_subscription.registered_time       AS registered_time,
 					exceeded_subscription.time_percentage       AS time_percentage,
-					customer.id                                 AS company_id,
-					customer.name                               AS company_name,
+					customer.id                                 AS contact_id,
+					customer.name                               AS contact_name,
 					user.ID                                     AS user_id,
 					user.display_name                           AS user_display_name,
 					user.user_email                             AS user_email,

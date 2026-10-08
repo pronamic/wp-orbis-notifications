@@ -10,8 +10,6 @@
 
 namespace Pronamic\WordPress\Orbis\Notifications;
 
-use Orbis_Plugin;
-
 /**
  * Plugin
  *
@@ -19,7 +17,14 @@ use Orbis_Plugin;
  * @since   1.0.0
  * @version 1.0.0
  */
-class Plugin extends Orbis_Plugin {
+class Plugin {
+	/**
+	 * Plugin main file.
+	 *
+	 * @var string
+	 */
+	private $file;
+
 	/**
 	 * @var array<int,Notification>
 	 */
@@ -31,18 +36,17 @@ class Plugin extends Orbis_Plugin {
 	 * @param string $file Plugin main file.
 	 */
 	public function __construct( $file ) {
-		parent::__construct( $file );
-
-		$this->set_name( 'orbis_notifications' );
-		$this->set_db_version( '0.0.1' );
+		$this->file = $file;
 
 		// Tables.
-		orbis_register_table( 'orbis_email_messages' );
-		orbis_register_table( 'orbis_email_templates' );
-		orbis_register_table( 'orbis_email_tracking' );
+		global $wpdb;
+
+		$wpdb->orbis_email_messages  = $wpdb->prefix . 'orbis_email_messages';
+		$wpdb->orbis_email_templates = $wpdb->prefix . 'orbis_email_templates';
+		$wpdb->orbis_email_tracking  = $wpdb->prefix . 'orbis_email_tracking';
 
 		// Includes.
-		$this->plugin_include( 'includes/template.php' );
+		include __DIR__ . '/../includes/template.php';
 
 		// Email messages controller.
 		( new EmailMessagesController() )->setup();
@@ -50,15 +54,18 @@ class Plugin extends Orbis_Plugin {
 		if ( is_admin() ) {
 			new Admin();
 		}
+
+		add_action( 'plugins_loaded', [ $this, 'loaded' ] );
+
+		add_action( 'admin_init', [ $this, 'update' ], 5 );
 	}
 
 	/**
 	 * Plugins loaded.
+	 *
+	 * @return void
 	 */
 	public function loaded() {
-		// Load translations.
-		$this->load_textdomain( 'orbis-notifications', '/languages/' );
-
 		// CLI.
 		if ( \defined( 'WP_CLI' ) && WP_CLI ) {
 			new CLI( $this );
@@ -69,66 +76,174 @@ class Plugin extends Orbis_Plugin {
 	}
 
 	/**
+	 * Update.
+	 *
+	 * @return void
+	 */
+	public function update() {
+		$version = '0.0.2';
+
+		if ( \get_option( 'orbis_notifications_db_version' ) !== $version ) {
+			$this->install();
+
+			\update_option( 'orbis_notifications_db_version', $version );
+		}
+	}
+
+	/**
 	 * Install.
+	 *
+	 * @link https://codex.wordpress.org/Creating_Tables_with_Plugins
+	 * @return void
 	 */
 	public function install() {
-		// Tables
-		orbis_install_table( 'orbis_email_messages', '
-			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-			`created_at` datetime NOT NULL,
-			`updated_at` datetime NOT NULL,
-			`from_email` varchar(200) NOT NULL,
-			`to_email` varchar(200) NOT NULL,
-			`reply_to` varchar(200) NOT NULL,
-			`subject` varchar(200) NOT NULL,
-			`message` text NOT NULL,
-			`headers` text NOT NULL,
-			`is_sent` tinyint(1) NOT NULL,
-			`number_attempts` tinyint(1) NOT NULL,
-			`template_id` bigint(20) unsigned DEFAULT NULL,
-			`user_id` bigint(20) unsigned DEFAULT NULL,
-			`subscription_id` bigint(20) unsigned DEFAULT NULL,
-			`company_id` bigint(20) unsigned DEFAULT NULL,
-			`link_key` varchar(32) DEFAULT NULL,
-			`test_mode` tinyint(1) unsigned DEFAULT NULL,
-			PRIMARY KEY (`id`),
-			KEY `template_id` (`template_id`),
-			KEY `user_id` (`user_id`),
-			KEY `subscription_id` (`subscription_id`),
-			CONSTRAINT `wp_orbis_email_messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `wp_users` (`ID`),
-			CONSTRAINT `wp_orbis_email_messages_ibfk_4` FOREIGN KEY (`subscription_id`) REFERENCES `wp_orbis_subscriptions` (`id`),
-			CONSTRAINT `wp_orbis_email_messages_ibfk_5` FOREIGN KEY (`template_id`) REFERENCES `wp_orbis_email_templates` (`id`)
-		' );
-
-		orbis_install_table( 'orbis_email_templates', '
-			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-			`created_at` datetime NOT NULL,
-			`updated_at` datetime NOT NULL,
-			`code` varchar(32) NOT NULL,
-			`subject` varchar(200) NOT NULL,
-			`message` text NOT NULL,
-			`preheader_text` varchar(200) NOT NULL,
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `code` (`code`)
-		' );
-
-		orbis_install_table( 'orbis_email_tracking', '
-			`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-			`email_message_id` bigint(20) unsigned NOT NULL,
-			`ip_address` varchar(100) NOT NULL,
-			`user_agent` varchar(255) NOT NULL,
-			`request_time` datetime(6) NOT NULL,
-			PRIMARY KEY (`id`)
-		' );
-
-		// Maybe convert
 		global $wpdb;
 
-		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_messages );
-		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_templates );
-		maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_tracking );
+		$charset_collate = $wpdb->get_charset_collate();
 
-		parent::install();
+		$sql = <<<SQL
+			CREATE TABLE $wpdb->orbis_email_templates (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				code VARCHAR(32) NOT NULL,
+				subject VARCHAR(200) NOT NULL,
+				message TEXT NOT NULL,
+				preheader_text VARCHAR(200) NOT NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY code (code)
+			) $charset_collate;
+			CREATE TABLE $wpdb->orbis_email_messages (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				created_at DATETIME NOT NULL,
+				updated_at DATETIME NOT NULL,
+				from_email VARCHAR(200) NOT NULL,
+				to_email VARCHAR(200) NOT NULL,
+				reply_to VARCHAR(200) NOT NULL,
+				subject VARCHAR(200) NOT NULL,
+				message TEXT NOT NULL,
+				headers TEXT NOT NULL,
+				is_sent TINYINT(1) NOT NULL,
+				number_attempts TINYINT(1) NOT NULL,
+				template_id BIGINT(20) UNSIGNED DEFAULT NULL,
+				user_id BIGINT(20) UNSIGNED DEFAULT NULL,
+				subscription_id BIGINT(20) UNSIGNED DEFAULT NULL,
+				company_id BIGINT(20) UNSIGNED DEFAULT NULL,
+				contact_id BIGINT(20) UNSIGNED DEFAULT NULL,
+				link_key VARCHAR(32) DEFAULT NULL,
+				test_mode TINYINT(1) UNSIGNED DEFAULT NULL,
+				PRIMARY KEY  (id),
+				KEY template_id (template_id),
+				KEY user_id (user_id),
+				KEY subscription_id (subscription_id),
+				KEY contact_id (contact_id)
+			) $charset_collate;
+			CREATE TABLE $wpdb->orbis_email_tracking (
+				id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+				email_message_id BIGINT(20) UNSIGNED NOT NULL,
+				ip_address VARCHAR(100) NOT NULL,
+				user_agent VARCHAR(255) NOT NULL,
+				request_time DATETIME(6) NOT NULL,
+				PRIMARY KEY  (id)
+			) $charset_collate;
+			SQL;
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+		dbDelta( $sql );
+
+		\maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_messages );
+		\maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_templates );
+		\maybe_convert_table_to_utf8mb4( $wpdb->orbis_email_tracking );
+
+		$this->add_foreign_keys();
+
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Add foreign keys.
+	 *
+	 * `dbDelta` does not support foreign keys, so they are added separately
+	 * when they do not exist yet. Foreign keys to tables that do not exist
+	 * (yet) are skipped.
+	 *
+	 * @return void
+	 */
+	private function add_foreign_keys() {
+		global $wpdb;
+
+		$table = $wpdb->orbis_email_messages;
+
+		$subscriptions_table = $wpdb->prefix . 'orbis_subscriptions';
+
+		$foreign_keys = [
+			[
+				'name'      => $wpdb->prefix . 'orbis_email_messages_ibfk_2',
+				'reference' => $wpdb->users,
+				'sql'       => <<<SQL
+					ALTER TABLE $table
+						ADD CONSTRAINT {$wpdb->prefix}orbis_email_messages_ibfk_2
+						FOREIGN KEY ( user_id ) REFERENCES $wpdb->users ( ID );
+					SQL,
+			],
+			[
+				'name'      => $wpdb->prefix . 'orbis_email_messages_ibfk_4',
+				'reference' => $subscriptions_table,
+				'sql'       => <<<SQL
+					ALTER TABLE $table
+						ADD CONSTRAINT {$wpdb->prefix}orbis_email_messages_ibfk_4
+						FOREIGN KEY ( subscription_id ) REFERENCES $subscriptions_table ( id );
+					SQL,
+			],
+			[
+				'name'      => $wpdb->prefix . 'orbis_email_messages_ibfk_5',
+				'reference' => $wpdb->orbis_email_templates,
+				'sql'       => <<<SQL
+					ALTER TABLE $table
+						ADD CONSTRAINT {$wpdb->prefix}orbis_email_messages_ibfk_5
+						FOREIGN KEY ( template_id ) REFERENCES $wpdb->orbis_email_templates ( id );
+					SQL,
+			],
+		];
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared -- `dbDelta` does not support foreign keys, the queries are built from table names only.
+		foreach ( $foreign_keys as $foreign_key ) {
+			$reference_exists = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s;', $wpdb->esc_like( $foreign_key['reference'] ) ) );
+
+			if ( null === $reference_exists ) {
+				continue;
+			}
+
+			$exists = $wpdb->get_var(
+				$wpdb->prepare(
+					<<<'SQL'
+						SELECT
+							CONSTRAINT_NAME
+						FROM
+							information_schema.TABLE_CONSTRAINTS
+						WHERE
+							CONSTRAINT_SCHEMA = DATABASE()
+								AND
+							TABLE_NAME = %s
+								AND
+							CONSTRAINT_NAME = %s
+								AND
+							CONSTRAINT_TYPE = 'FOREIGN KEY'
+						;
+						SQL,
+					$table,
+					$foreign_key['name']
+				)
+			);
+
+			if ( null !== $exists ) {
+				continue;
+			}
+
+			$wpdb->query( $foreign_key['sql'] );
+		}
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery.SchemaChange, WordPress.DB.PreparedSQL.NotPrepared
 	}
 
 	/**
