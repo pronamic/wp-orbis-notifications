@@ -19,3 +19,5 @@ phpcs.xml.dist
 /wordpress/
 
 /deploy.php
+
+/rector.php
