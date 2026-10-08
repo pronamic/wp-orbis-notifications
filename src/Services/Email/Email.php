@@ -132,6 +132,7 @@ class Email {
 
 	/**
 	 * Preheader text.
+	 *
 	 * @var string|null
 	 */
 	private $preheader_text;
@@ -235,7 +236,7 @@ class Email {
 
 		$template = $wpdb->get_row( $query );
 
-		if ( null !== $template) {
+		if ( null !== $template ) {
 			$this->set_template_id( $template->id );
 			$this->set_subject( $template->subject );
 			$this->set_message( $template->message );
@@ -637,7 +638,7 @@ class Email {
 		$data = $this->get_data();
 
 		// Insert email.
-		$result  = $wpdb->insert(
+		$result = $wpdb->insert(
 			$wpdb->orbis_email_messages,
 			$data['data'],
 			$data['format']

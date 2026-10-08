@@ -7,32 +7,32 @@
  */
 
 ?>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
+						</td>
+					</tr>
+					</table>
+				</td>
+				</tr>
 
-            <!-- END MAIN CONTENT AREA -->
-            </table>
+			<!-- END MAIN CONTENT AREA -->
+			</table>
 
-            <!-- START FOOTER -->
-            <div class="footer">
-              <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="content-block">
+			<!-- START FOOTER -->
+			<div class="footer">
+				<table border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="content-block">
 					<p>&nbsp;</p>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <!-- END FOOTER -->
+					</td>
+				</tr>
+				</table>
+			</div>
+			<!-- END FOOTER -->
 
-          <!-- END CENTERED WHITE CONTAINER -->
-          </div>
-        </td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
-  </body>
+			<!-- END CENTERED WHITE CONTAINER -->
+			</div>
+		</td>
+		<td>&nbsp;</td>
+		</tr>
+	</table>
+	</body>
 </html>

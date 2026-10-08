@@ -10,12 +10,12 @@ class EmailMessagesController {
 	 * Setup.
 	 */
 	public function setup() {
-		add_action( 'init', $this->init(...) );
+		add_action( 'init', $this->init( ... ) );
 
-		add_filter( 'query_vars', $this->query_vars(...) );
+		add_filter( 'query_vars', $this->query_vars( ... ) );
 
-		add_filter( 'template_include', $this->template_include_email_messages(...) );
-		add_filter( 'template_include', $this->template_include_email_message(...) );
+		add_filter( 'template_include', $this->template_include_email_messages( ... ) );
+		add_filter( 'template_include', $this->template_include_email_message( ... ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class EmailMessagesController {
 		}
 
 		if ( 'preview' === $view ) {
-			return  __DIR__ . '/../templates/email-message-preview.php';
+			return __DIR__ . '/../templates/email-message-preview.php';
 		}
 
 		$template = __DIR__ . '/../templates/email-message.php';

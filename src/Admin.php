@@ -23,7 +23,7 @@ class Admin {
 	 */
 	public function __construct() {
 		// Actions.
-		add_action( 'admin_init', $this->admin_init(...) );
+		add_action( 'admin_init', $this->admin_init( ... ) );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Admin {
 		add_settings_field(
 			'orbis_notifications_additional_recipient_user_id',
 			_x( 'Additional recipient for 100% quota notifications', 'notifications', 'orbis-notifications' ),
-			$this->input_select_user(...),
+			$this->input_select_user( ... ),
 			'orbis',
 			'orbis_notifications',
 			[

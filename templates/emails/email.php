@@ -10,8 +10,8 @@ if ( ! isset( $email ) ) {
 	return;
 }
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 
 echo $email->get_message();
 
-include __DIR__ . '/footer.php';
+require __DIR__ . '/footer.php';

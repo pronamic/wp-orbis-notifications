@@ -96,24 +96,24 @@ class SubscriptionSupportQuotaNotification extends Notification {
 			$link_key = \wp_generate_password( 32, false, false );
 
 			$replacements = [
-				'{company_id}'              => $event->contact_id,
-				'{company_name}'            => $event->contact_name,
-				'{subscription_id}'         => $event->subscription_id,
-				'{subscription_name}'       => $event->subscription_name,
-				'{product_id}'              => $event->product_id,
-				'{product_name}'            => $event->product_name,
-				'{product_time_per_year}'   => ( $event->product_time_per_year > 0 ? ( $event->product_time_per_year / HOUR_IN_SECONDS ) : 0 ),
-				'{registered_time}'         => ( $event->registered_time > 0 ? ( $event->registered_time / HOUR_IN_SECONDS ) : 0 ),
-				'{time_percentage}'         => $event->time_percentage,
-				'{user_id}'                 => $event->user_id,
-				'{user_display_name}'       => $event->user_display_name,
-				'{user_email}'              => $event->user_email,
-				'{link_key}'                => $link_key,
+				'{company_id}'            => $event->contact_id,
+				'{company_name}'          => $event->contact_name,
+				'{subscription_id}'       => $event->subscription_id,
+				'{subscription_name}'     => $event->subscription_name,
+				'{product_id}'            => $event->product_id,
+				'{product_name}'          => $event->product_name,
+				'{product_time_per_year}' => ( $event->product_time_per_year > 0 ? ( $event->product_time_per_year / HOUR_IN_SECONDS ) : 0 ),
+				'{registered_time}'       => ( $event->registered_time > 0 ? ( $event->registered_time / HOUR_IN_SECONDS ) : 0 ),
+				'{time_percentage}'       => $event->time_percentage,
+				'{user_id}'               => $event->user_id,
+				'{user_display_name}'     => $event->user_display_name,
+				'{user_email}'            => $event->user_email,
+				'{link_key}'              => $link_key,
 			];
 
 			// Data.
-			$subject        = \strtr( $email->get_subject(), $replacements );
-			$message        = \strtr( $email->get_message(), $replacements );
+			$subject = \strtr( $email->get_subject(), $replacements );
+			$message = \strtr( $email->get_message(), $replacements );
 
 			$preheader_text = $email->get_preheader_text();
 

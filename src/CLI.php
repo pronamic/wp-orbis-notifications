@@ -29,7 +29,7 @@ class CLI {
 		// Execute all notifications.
 		\WP_CLI::add_command(
 			'orbis notifications run',
-			function( $args, $assoc_args ): void {
+			function ( $args, $assoc_args ): void {
 				$args = [
 					'dry_run' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false ),
 				];
@@ -44,11 +44,11 @@ class CLI {
 		// Execute subscription support quota notification.
 		\WP_CLI::add_command(
 			'orbis notifications subscription-support-quota-exceeded',
-			function( $args, $assoc_args ): void {
+			function ( $args, $assoc_args ): void {
 				$options = [
 					'min_threshold' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'min-threshold', null ),
 					'max_threshold' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'max-threshold', null ),
-					'dry_run' => \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false ),
+					'dry_run'       => \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false ),
 				];
 
 				$this->execute_subscription_support_quota_notification( $options );
@@ -61,7 +61,7 @@ class CLI {
 		// Process mailer queue.
 		\WP_CLI::add_command(
 			'orbis mailer process-queue',
-			function( $args, $assoc_args ): void {
+			function ( $args, $assoc_args ): void {
 				$mailer = new Mailer();
 
 				$mailer->process_queue();

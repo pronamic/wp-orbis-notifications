@@ -46,9 +46,9 @@ class Plugin {
 			new Admin();
 		}
 
-		add_action( 'plugins_loaded', $this->loaded(...) );
+		add_action( 'plugins_loaded', $this->loaded( ... ) );
 
-		add_action( 'admin_init', $this->update(...), 5 );
+		add_action( 'admin_init', $this->update( ... ), 5 );
 	}
 
 	/**
@@ -247,9 +247,18 @@ class Plugin {
 
 		// Subscription support quota notifications for various quota threshold percentages.
 		$thresholds = [
-			[ 'min' => 50, 'max' => 75 ],
-			[ 'min' => 75, 'max' => 100 ],
-			[ 'min' => 100, 'max' => 1000 ],
+			[
+				'min' => 50,
+				'max' => 75,
+			],
+			[
+				'min' => 75,
+				'max' => 100,
+			],
+			[
+				'min' => 100,
+				'max' => 1000,
+			],
 		];
 
 		foreach ( $thresholds as $threshold ) {
